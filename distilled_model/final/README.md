@@ -8,200 +8,126 @@ tags:
 - transformers
 ---
 
-# Model Card for Model ID
+# Distillation Proof Helper — Final Adapter Checkpoint
 
-<!-- Provide a quick summary of what the model is/does. -->
-
-
+This directory contains the **final LoRA adapter** produced by the distillation pipeline for next-step mathematical proof generation.
 
 ## Model Details
 
-### Model Description
+- **Base model:** `Qwen/Qwen2.5-1.5B`
+- **Adapter type:** LoRA (PEFT)
+- **Task:** Generate the next logical proof step from theorem statement + partial proof
+- **Training objective:** Distillation from a larger teacher model plus supervised next-token objective
+- **Frameworks:** Transformers + PEFT
 
-<!-- Provide a longer summary of what this model is. -->
+## What Is Stored Here
 
+This `final/` folder stores adapter and tokenizer assets, including:
 
+- `adapter_model.safetensors`
+- `adapter_config.json`
+- tokenizer files (`tokenizer.json`, `tokenizer_config.json`)
+- chat template metadata
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
+This is **not** a standalone full model checkpoint. Load it together with the base model.
 
-### Model Sources [optional]
+## Quick Start
 
-<!-- Provide the basic links for the model. -->
+### Python loading example
 
-- **Repository:** [More Information Needed]
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
 
-## Uses
+adapter_path = "distilled_model/final"
+base_model_name = "Qwen/Qwen2.5-1.5B"
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
+tokenizer = AutoTokenizer.from_pretrained(adapter_path)
 
-### Direct Use
+base_model = AutoModelForCausalLM.from_pretrained(
+	base_model_name,
+	device_map="auto",
+	torch_dtype=torch.bfloat16,
+	trust_remote_code=True,
+)
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
+model = PeftModel.from_pretrained(base_model, adapter_path)
+model.eval()
+```
 
-[More Information Needed]
+### Generate a next proof step
 
-### Downstream Use [optional]
+```python
+statement = "If n is even, then n^2 is even."
+partial_proof = "Let n be even. Then n = 2k for some integer k."
 
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
+prompt = f"""Generate the next step of the proof.
 
-[More Information Needed]
+Theorem:
+{statement}
 
-### Out-of-Scope Use
+Proof so far:
+{partial_proof}"""
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
+inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+with torch.no_grad():
+	outputs = model.generate(
+		**inputs,
+		max_new_tokens=150,
+		temperature=0.3,
+		do_sample=True,
+		top_p=0.9,
+		repetition_penalty=1.1,
+	)
 
-[More Information Needed]
+generated = tokenizer.decode(outputs[0], skip_special_tokens=True)
+next_step = generated[len(prompt):].strip()
+print(next_step)
+```
 
-## Bias, Risks, and Limitations
+### Script-based test
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
+From the project root:
 
-[More Information Needed]
+```bash
+python test_distilled_model.py --model distilled_model/final
+```
 
-### Recommendations
+## Training Configuration (Project Defaults)
 
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
+From `distill.py` defaults:
 
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
+- **Teacher model:** `Qwen/Qwen2.5-72B-Instruct`
+- **Student base:** `Qwen/Qwen2.5-1.5B`
+- **Epochs:** 3
+- **Batch size:** 4
+- **Gradient accumulation:** 4
+- **Learning rate:** `2e-4`
+- **Temperature:** `2.0`
+- **Alpha (distillation blend):** `0.5`
+- **Max sequence length:** `512`
+- **Precision / quantization path:** bfloat16 compute with 4-bit loading in LoRA flow
 
-## How to Get Started with the Model
+## Intended Use
 
-Use the code below to get started with the model.
+- Educational and research workflows for proof-step generation
+- Prototyping assistants for undergraduate-level proof writing
+- Distillation experiments comparing teacher vs student quality
 
-[More Information Needed]
+## Limitations
 
-## Training Details
+- Can produce plausible but incorrect proof steps; always verify mathematically
+- Performance depends heavily on theorem domain and proof style
+- Not intended for high-stakes or unsupervised formal verification
+- May inherit errors or biases from source data and teacher outputs
 
-### Training Data
+## Safety and Responsible Use
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
+- Keep human review in the loop for all generated proof content
+- Treat generated text as a draft, not ground truth
+- Do not use outputs as sole evidence for grading or formal correctness claims
 
-[More Information Needed]
-
-### Training Procedure
-
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
-
-#### Preprocessing [optional]
-
-[More Information Needed]
-
-
-#### Training Hyperparameters
-
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
-
-#### Speeds, Sizes, Times [optional]
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-[More Information Needed]
-
-## Evaluation
-
-<!-- This section describes the evaluation protocols and provides the results. -->
-
-### Testing Data, Factors & Metrics
-
-#### Testing Data
-
-<!-- This should link to a Dataset Card if possible. -->
-
-[More Information Needed]
-
-#### Factors
-
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
-
-[More Information Needed]
-
-#### Metrics
-
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
-
-[More Information Needed]
-
-### Results
-
-[More Information Needed]
-
-#### Summary
-
-
-
-## Model Examination [optional]
-
-<!-- Relevant interpretability work for the model goes here -->
-
-[More Information Needed]
-
-## Environmental Impact
-
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
-
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
-
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
-
-## Technical Specifications [optional]
-
-### Model Architecture and Objective
-
-[More Information Needed]
-
-### Compute Infrastructure
-
-[More Information Needed]
-
-#### Hardware
-
-[More Information Needed]
-
-#### Software
-
-[More Information Needed]
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
-
-**BibTeX:**
-
-[More Information Needed]
-
-**APA:**
-
-[More Information Needed]
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-[More Information Needed]
-
-## More Information [optional]
-
-[More Information Needed]
-
-## Model Card Authors [optional]
-
-[More Information Needed]
-
-## Model Card Contact
-
-[More Information Needed]
-### Framework versions
+## Framework Versions
 
 - PEFT 0.18.1
