@@ -236,9 +236,4 @@ $$\mathcal{L} = \alpha \cdot T^2 \cdot \text{KL}\!\left(\sigma\!\left(\frac{z_s}
 
 where $T$ is the distillation temperature, $z_s$ are student logits, $z_t$ are teacher logits, and $y$ are ground-truth labels.
 
----
-
-## License
-
-MIT
 
