@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Model weights and checkpoints (large binary files)
+distilled_model/
+distilled_model_05b/
+teacher_offload/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Dataset and scraped data (regenerate with pipeline)
+proofwiki_raw.json
+segmented.json
+dataset.jsonl
+*.jsonl
+
+# Logs and output
+*.log
+distill_*.log
+model_output.txt
+output.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb

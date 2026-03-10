@@ -1,0 +1,11 @@
+transformers
+accelerate
+bitsandbytes
+sentencepiece
+torch
+requests
+beautifulsoup4
+tqdm
+peft
+datasets
+scipy
