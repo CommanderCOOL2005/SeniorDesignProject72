@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verification Result</title>
+    <style>
+      body{font-family:system-ui,Arial;max-width:900px;margin:24px auto;padding:0 12px}
+      pre{background:#f6f6f8;padding:12px;border-radius:6px}
+      .ok{color:green}
+      .err{color:crimson}
+    </style>
+  </head>
+  <body>
+    <h1>Verification Result</h1>
+
+    {% if error %}
+      <div class="err">Error: {{ error }}</div>
+    {% else %}
+      <h3>Goal: {{ spec.goal.formal or spec.goal.nl }}</h3>
+      <h4>Status: {% if out.ok %}<span class="ok">Goal reached ✅</span>{% else %}<span class="err">Not reached ❌</span>{% endif %}</h4>
+
+      <h3>Step results</h3>
+      <ul>
+        {% for r in out.results %}
+          <li>
+            <strong>{{ r.id }}</strong> — {% if r.ok %}<span class="ok">OK</span>{% else %}<span class="err">ERR</span>{% endif %}
+            {% if r.conclusion %} — Conclusion: <code>{{ r.conclusion }}</code>{% endif %}
+            {% if r.error %} — Error: <code>{{ r.error }}</code> — Suggestion: {{ r.suggestion }}{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+
+      <h3>Verifier log</h3>
+      <pre>{{ out.log | join('\n') }}</pre>
+
+      {% if lean_exists %}
+        <p>Lean skeleton exported. <a href="/download_lean?name={{ lean_name }}">Download Lean file</a></p>
+      {% endif %}
+
+      <p><a href="/">← Back</a></p>
+    {% endif %}
+  </body>
+</html>

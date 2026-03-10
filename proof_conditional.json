@@ -1,0 +1,10 @@
+{
+  "axioms": [],
+  "goal": {"formal": "P -> P"},
+  "steps": [
+    {"id": "B0", "nl": "Assume P", "rule": "", "box_open": true, "formal": "P"},
+    {"id": "S1", "nl": "From P and P infer P ∧ P", "rule": "and-intro", "deps": ["B0_assumption", "B0_assumption"], "formal": "P ∧ P"},
+    {"id": "S2", "nl": "From P ∧ P infer P", "rule": "and-elim-left", "deps": ["S1"], "formal": "P"},
+    {"id": "S3", "nl": "Thus P->P", "rule": "->-intro", "deps": ["B0_assumption","S2"], "formal": "P -> P", "box_close": true}
+  ]
+}
