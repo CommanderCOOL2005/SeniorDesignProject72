@@ -1,0 +1,759 @@
+[
+  {
+    "url": "https://proofwiki.org/wiki/1089_Trick",
+    "title": "1089 Trick",
+    "statement": "Take a three-digit number (one where the first and last digits are different by at least $2$).",
+    "proof_text": "Let the number you started with be expressed in decimal notation as $[abc]_{10}$.\nThen it is $10^2 a + 10 b + c$.\nIts reversal is:\nThe difference between the two is $99a - 99c$ (or $99c - 99a$, it matters not).\nThis is a multiple of $99$.\nThe three-digit multiples of $99$ are:\nBy adding any one of these to its reversal , you get:\n$\\blacksquare$\nNote: You need to make sure the difference between the first and last digits of the number you started with is at least $2$ so as to make sure that the first difference you calculate is definitely a $3$-digit number.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Addition_Law_of_Probability",
+    "title": "Addition Law of Probability",
+    "statement": "Let $\\Pr$ be a probability measure on an event space $\\Sigma$.",
+    "proof_text": "By definition, a probability measure is a measure .\nHence, again by definition, it is a countably additive function .\nBy Measure is Finitely Additive Function , we have that $\\Pr$ is an additive function .\nSo Additive Function is Strongly Additive can be applied directly.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Alternating_Series_Test",
+    "title": "Alternating Series Test",
+    "statement": "Let $\\sequence {a_n}_{N \\mathop \\ge 0}$ be a decreasing sequence of positive terms in $\\R$ which converges with a limit of zero.",
+    "proof_text": "First we show that for each $n > m$, we have $0 \\le a_{m + 1} - a_{m + 2} + a_{m + 3} - \\dotsb \\pm a_n \\le a_{m + 1}$.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Ambiguous_Case_for_Triangle_Side-Side-Angle_Congruence",
+    "title": "Ambiguous Case for Triangle Side-Side-Angle Congruence",
+    "statement": "Let $\\triangle ABC$ be a triangle .",
+    "proof_text": "From the Law of Sines , we have:\nfrom which:\nWe find that $0 < \\sin A \\le 1$.\nWe have that:\nand so unless $\\sin A = 1$ and so $A = \\dfrac \\pi 2$, it is not possible to tell which of $A$ or $\\pi - A$ provides the correct solution.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Basel_Problem",
+    "title": "Basel Problem",
+    "statement": "where $\\zeta$ denotes the Riemann zeta function .",
+    "proof_text": "By Riemann Zeta Function as a Multiple Integral ,\nLet $\\tuple {u, v} = \\tuple {\\dfrac {x + y} 2, \\dfrac{y - x} 2}$ so that:\nThe Jacobian is:\nThen, by Change of Variables Theorem (Multivariable Calculus) :\nwhere $S$ is the square defined by the coordinates:\nExploiting the symmetry of the square and the function over the $u$-axis, we have:\nFactoring $1 - u^2$ gives us:\nand letting:\nallows us to make a substitution into each integral , giving:\nConsider the right triangle with sides $1$, $x$ and $\\sqrt {1 - x^2}$.\nApplying Pythagoras's Theorem :\nLet:\nThis allows us to convert the arctangents from the integrals into arcsines :\nSubstituting:\ninto the arcsines , and splitting the second integral:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Basis_Representation_Theorem",
+    "title": "Basis Representation Theorem",
+    "statement": "Let $b \\in \\Z: b > 1$.",
+    "proof_text": "Let $\\map {s_b} n$ be the number of ways of representing $n$ to the base $b$.\nWe need to show that $\\map {s_b} n = 1$ always.\nNow, it is possible that some of the $r_k = 0$ in a particular representation .\nSo we may exclude these terms, and it will not affect the representation .\nSo, suppose:\nwhere $r_k \\ne 0, r_t \\ne 0$.\nThen:\nNote that we have already specified that $b > 1$.\nSo for each representation of $n$ to the base $b$ , we can find a representation of $n - 1$.\nIf $n$ has another representation to the base $b $, then the same procedure will generate a new representation of $n - 1$.\nThus:\nNote that this holds even if $n$ has no representation at all, because if this is the case, then:\nSo for $m, n \\in \\N$ such that $m \\ge n$, the inequality $(1)$ implies the following:\nFrom N less than M to the N‎ and the fact that $b^n$ has at least one representation (itself), we see:\nTo determine the value of $\\map {s_b} 1$, note that:\nWe have that every term of the sum in $(1)$ is non-negative .\nSo, $r_i = 0$ for every $i > 0$.\nThe representation of $1$ must be:\nThus:\nTherefore, the entries at either end of the inequality are $1$.\nHence all the intermediate entries must also be $1$.\nSo:\nand the theorem has been proved.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Basis_Theorem",
+    "title": "Basis Theorem",
+    "statement": "Let $E$ be a vector space of $n$ dimensions .",
+    "proof_text": "By hypothesis , let $H$ be a linearly independent subset of $E$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Broken_Chord_Theorem",
+    "title": "Broken Chord Theorem",
+    "statement": "Let $A$ and $C$ be arbitrary points on a circle in the plane .",
+    "proof_text": "Given:\nFind $E$ such that $BD = DE$ and draw $ME$\nThen:\nBy Triangle Side-Angle-Side Congruence :\nLet $H$ be a point such that arc $MH$ is equal to arc $BM$.\nLabel three angles for reference:\nLet $\\alpha = \\angle MBC$.\nLet $\\beta = \\angle MCB$.\nLet $\\gamma = \\angle CMH$.\nBy the definition of congruence :\nBy construction:\nAlso by construction:\nSubtracting equals:\nIn the words of Euclid :\n( The Elements : Book $\\text{III}$ : Proposition $29$ )\nSo:\nBy construction:\nBy Inscribed Angle Theorem\nBy construction:\nEquating the results:\nBut $\\alpha = \\angle MEB$.\nBy External Angle of Triangle equals Sum of other Internal Angles :\nSubtracting:\n$MC$ is shared.\nFrom above:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Bullseye_Illusion",
+    "title": "Bullseye Illusion",
+    "statement": "The circle of radius $3 a$ at the center has the same area as the outer annulus whose width is $1$.",
+    "proof_text": "From the diagram, it is seen that the circles are evenly spaced.\nLet $C$ denote the circle of radius $3 a$ at the center, colored orange.\nLet $A$ denote the outer annulus of width $a$ and outer radius $5 a$, colored blue.\nWe have that:\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Cancellation_Laws",
+    "title": "Cancellation Laws",
+    "statement": "Let $G$ be a group .",
+    "proof_text": "Let $a, b, c \\in G$ and let $a^{-1}$ be the inverse of $a$.\nSuppose $b a = c a$.\nThen:\nThus, the right cancellation law holds.\nThe proof of the left cancellation law is analogous.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Cantor's_Intersection_Theorem",
+    "title": "Cantor's Intersection Theorem",
+    "statement": "Let $M = \\struct {A, d}$ be a complete metric space .",
+    "proof_text": "Let $S_n = \\map {B^-_{\\rho_n} } {x_n}$ be the closed ball of radius $\\rho_n$ about the point $x_n$.\nThat is, let $S_n = \\set {x \\in A: \\map d {x_n, x} \\le \\rho_n}$.\nThen the sequence $\\sequence {x_n}$ forms a Cauchy sequence :\nfor any $p \\ge 0$ since $S_{n + p} \\subseteq S_n$.\nHowever, $\\rho_n \\to 0$ as $n \\to \\infty$ and therefore $\\map d {x_n, x_{n + p} } \\to 0$ as $n \\to \\infty$ for any $p \\ge 0$.\nSince the space $M$ is complete , there exists $x \\in X$ such that $x_n \\to x$ as $n \\to \\infty$.\nThen since the subsequence $\\sequence {x_k}_{k \\mathop = n}^\\infty$ is contained entirely in $S_n$ and converges to $x$, $x$ is a member of the closure of $S_n$ by Closure of Subset of Metric Space by Convergent Sequence .\nSince $S_n$ is closed , by Closed Set Equals its Closure , we have:\nHence:\nSuppose now that $y \\ne x$.\nThen it follows that $\\map d {x, y} > 0$, and hence that for some $n$:\nSince $x, x_n \\in S_n$, it then follows that:\nNow:\nFrom the above, it follows that:\nso that $y \\notin S_n$, and consequently:\nHence:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Central_Limit_Theorem",
+    "title": "Central Limit Theorem",
+    "statement": "Let $X_1, X_2, \\ldots$ be a sequence of independent and identically distributed real-valued random variables with:",
+    "proof_text": "Let $Y_i = \\dfrac {X_i - \\mu} \\sigma$.\nWe have that:\nand:\nThen by Taylor's Theorem the characteristic function can be written:\nNow let:\nThen its characteristic function is given by:\nRecall that the Characteristic Function of Normal Distribution is given by:\nIndeed, the characteristic function of $S_n$ converges to the Characteristic Function of Normal Distribution :\nThen Lévy's Continuity Theorem applies.\nIn particular, the convergence in distribution of the $U_n$ to some random variable with standard normal distribution is equivalent to continuity of the limiting characteristic equation at $t = 0$.\nBut $e^{-\\frac 1 2 t^2}$ is clearly continuous at $0$.\nSo we have that $\\dfrac {S_n - n \\mu} {\\sqrt {n \\sigma^2} }$ converges in distribution to a standard normal random variable .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Chain_Rule_for_Probability",
+    "title": "Chain Rule for Probability",
+    "statement": "Let $\\EE$ be an experiment with probability space $\\struct {\\Omega, \\Sigma, \\Pr}$.",
+    "proof_text": "Suppose it is given that $B$ has occurred .\nThen the probability of $A$ having occurred may not be $\\map \\Pr A$ after all.\nIn fact, we can say that $A$ has occurred if and only if $A \\cap B$ has occurred .\nSo, if we know that $B$ has occurred , the conditional probability of $A$ given $B$ is $\\map \\Pr {A \\cap B}$.\nIt follows then, that:\nwe can say that:\nHence:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Cheryl's_Birthday",
+    "title": "Cheryl's Birthday",
+    "statement": "Albert and Bernard have just become friends with Cheryl.",
+    "proof_text": "Albert's first statement is that he knows that Bernard cannot know what Cheryl's birthday is.\nThat means he knows that Bernard has not been told either $18$ or $19$.\nAlbert knows this because he has been told that the month is neither May nor June.\n(If he had been told either May or June, then Albert cannot be certain that Bernard had not been told $18$ or $19$, and so in that case he cannot know that Bernard did not know the birthday.)\nThis means that Albert has been told either July or August.\nBernard has just been told that Albert knows he does not know the birthday.\nBernard uses the above reasoning to work out that Albert must have been told July or August.\nBernard then announces to Albert that now he does know when Cheryl's birthday is.\nThis means that he has been told one of the dates which belongs either to July or August, but not both.\nThat is, Bernard has not been told $14$.\nSo he must have been told $15$, $16$ or $17$.\nHence Cheryl's birthday is on the $16$th of July, or the $15$th or $17$th of August.\nAlbert, having heard Bernard announce when the birthday is, deduces the above.\nIf he had been told August, then he still would not know whether the date was $15$ or $17$.\nBut he announces that he does know.\nSo he must have been told July.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Classification_Theorem_for_Surfaces",
+    "title": "Classification of Compact Two-Manifolds",
+    "statement": "A smooth , compact , path-connected manifold of dimension $2$ is diffeomorphic to one of the following:",
+    "proof_text": "It is known that the connected sum of $g$ tori , $\\mathbb T_1^2 \\# \\mathbb T_2^2 \\# \\ldots \\# \\mathbb T_g^2$, which we denote $g \\mathbb T^2$, is orientable and has Euler characteristic $2 - 2 g - b$, where $b$ is the number of boundary curves .\nIt is also known that the connected sum of $p$ projective spaces $p \\mathbb{RP}^2$ is non-orientable and has Euler characteristic $2 - p - b$.\nThus the Euler characteristic , number of boundary curves and orientability distinguish any closed, path-connected $2$-manifold .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Compactness_Theorem",
+    "title": "Compactness Theorem",
+    "statement": "Let $\\LL$ be the language of predicate logic .",
+    "proof_text": "By definition, $T$ is finitely satisfiable means that every finite subset of $T$ is satisfiable .\nBecause the direction:\nis trivial, the proofs below all justify the converse :",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Compactness_Theorem_for_Boolean_Interpretations",
+    "title": "Compactness Theorem for Boolean Interpretations",
+    "statement": "Let $\\mathbf H$ be a countable set of WFFs of propositional logic .",
+    "proof_text": "Suppose $\\mathbf H$ does not have a model .\nBy the Main Lemma of Propositional Tableaux , $\\mathbf H$ has a tableau confutation $T$.\nBy Tableau Confutation contains Finite Tableau Confutation , $T$ may be assumed to be finite .\nHence the set $\\mathbf H'$ of all WFFs in $\\mathbf H$ used somewhere in $T$ is finite .\nNow, let $T'$ be the labeled tree which is the same as $T$ but with root $\\mathbf H'$ instead of $\\mathbf H$.\nThen $T'$ is a tableau confutation of $\\mathbf H'$.\nBy the Tableau Confutation implies Unsatisfiable , $\\mathbf H'$ has no models .\nBut this contradicts the assumption that all finite subsets of $\\mathbf H$ have models.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Comparability_Theorem",
+    "title": "Fundamental Theorem of Well-Ordering",
+    "statement": "Let $\\struct {A, \\preccurlyeq_A}$ and $\\struct {B, \\preccurlyeq_B}$ be well-ordered classes .",
+    "proof_text": "Let $N$ be the class of all order isomorphisms from lower sections of $\\struct {A, \\preccurlyeq_A}$ which are sets to lower sections of $\\struct {B, \\preccurlyeq_B}$ which are sets .\nEach such order isomorphism is itself a set .\nBy Isomorphisms between Lower Sections of Well-Ordered Classes are Nested , $N$ is a nest .\n$N$ may or may not contain a maximal element with respect to the subset relation .\nHowever, note that no order isomorphism from a proper lower section of $\\struct {A, \\preccurlyeq_A}$ onto a proper lower section of $\\struct {B, \\preccurlyeq_B}$ can be a maximal element of $N$.\nIndeed, suppose $\\psi$ is an order isomorphism from a proper lower section $a^\\prec$ of $\\struct {A, \\preccurlyeq_A}$ onto a proper lower section $b^\\prec$ of $\\struct {B, \\preccurlyeq_B}$.\nThen $\\psi \\cup \\tuple {a, b}$ is an element of $N$ which is a proper extension of $\\psi$.\nLet $I = \\bigcup N$ be the union of $N$.\nBecause $N$ is a nest , $I$ must be an order isomorphism from a lower section of $\\struct {A, \\preccurlyeq_A}$ (not necessarily proper ) onto a lower section of $\\struct {B, \\preccurlyeq_B}$  (not necessarily proper ).\nIt remains to be shown that either:\nor:\nEquivalently, we can instead show that:\nand:\nAiming for a contradiction , suppose, the above were the case.\nBecause $I = \\bigcup N$, $I$ would then be a maximal element of $N$.\nBut we have shown that no order isomorphism from a proper lower section of $\\struct {A, \\preccurlyeq_A}$ onto a proper lower section of $\\struct {B, \\preccurlyeq_B}$ can be a maximal element of $N$.\nTherefore $I$ cannot be an order isomorphism from a proper lower section of $\\struct {A, \\preccurlyeq_A}$ onto a proper lower section of $\\struct {B, \\preccurlyeq_B}$.\nThe result follows.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Comparison_Test",
+    "title": "Comparison Test",
+    "statement": "Let $\\ds \\sum_{n \\mathop = 1}^\\infty b_n$ be a convergent series of positive real numbers .",
+    "proof_text": "Let $\\epsilon > 0$.\nAs $\\ds \\sum_{n \\mathop = 1}^\\infty b_n$ converges , its tail tends to zero .\nSo:\nLet $\\sequence {s_n}$ be the sequence of partial sums of $\\ds \\sum_{n \\mathop = 1}^\\infty a_n$.\nThen $\\forall n > m > N$:\nSo $\\sequence {s_n}$ is a Cauchy sequence .\nThe result follows from Real Number Line is Complete Metric Space or Complex Plane is Complete Metric Space .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Completeness_Theorem_for_Propositional_Tableaux_and_Boolean_Interpretations",
+    "title": "Completeness Theorem for Propositional Tableaux and Boolean Interpretations",
+    "statement": "Tableau proofs (in terms of propositional tableaux ) are a complete proof system for boolean interpretations .",
+    "proof_text": "This is a corollary of the Extended Completeness Theorem for Propositional Tableaux and Boolean Interpretations .\nNamely, it is the special case $\\mathbf H = \\O$.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Completeness_Theorem_for_Semantic_Tableaux",
+    "title": "Completeness Theorem for Semantic Tableaux",
+    "statement": "Let $\\mathbf A$ be a WFF of propositional logic .",
+    "proof_text": "Aiming for a contradiction , suppose some open tableau $T$ for $\\mathbf A$ exists.\nWe will prove that $\\mathbf A$ must be satisfiable .\nThis claim is proved by inductively establishing the following claim for all nodes $t$ of $T$:\nBy the Semantic Tableau Algorithm , this statement is immediate for leaf nodes .\nFor, sought satisfiability is the condition for a leaf to be marked open .\nInductively suppose that all children of $t$ satisfy the mentioned condition.\nNow suppose that $t$ has a descendant marked open leaf .\nThen obviously some child $t'$ of $t$ also has a descendant marked open leaf .\nBy induction hypothesis, $\\map U {t'}$ is satisfiable .\nFirst, the case that the formula $\\mathbf B$ used at $t$ by the Semantic Tableau Algorithm is an $\\alpha$-formula .\nThen $\\map U {t'}$ is obtained from $\\map U t$ by replacing $\\mathbf B$ by $\\mathbf B_1$ and $\\mathbf B_2$.\nHere, $\\mathbf B_1$ and $\\mathbf B_2$ are the formulas such that $\\mathbf B$ is semantically equivalent to $\\mathbf B_1 \\land \\mathbf B_2$.\nIt follows that if:\nfor some boolean interpretation $v$, then also:\nby the boolean interpretation of $\\land$.\nConsequently, $\\map U t$ is satisfiable .\nNext, the case that $\\mathbf B$ is a $\\beta$-formula .\nThen $\\mathbf B$ is semantically equivalent to $\\mathbf B_1 \\lor \\mathbf B_2$.\nThen, by the Rule of Addition :\nConsequently, by the definitions of $\\map U {t'}$ and $\\map U {t' '}$:\nBy hypothesis, one of $\\map U {t'}$ and $\\map U {t' '}$ must be satisfiable .\nHence, so must $\\map U t$ be.\nThis establishes our claim.\nApplying the claim to the root node , that is, to the whole tableau , we obtain the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Completion_Theorem_(Inner_Product_Space)",
+    "title": "Completion Theorem (Inner Product Space)",
+    "statement": "Let $\\GF \\in \\set {\\R, \\C}$.",
+    "proof_text": "We first show that $\\norm {\\, \\cdot \\,}_H$ is induced by an inner product by using Norm satisfying Parallelogram Law induced by Inner Product .\nFrom Completion Theorem (Normed Vector Space) , there exists a linear isometry $\\phi : V \\to H$ such that $\\phi \\sqbrk V$ is dense in $H$.\nFrom Parallelogram Law (Inner Product Space) , we have:\nfor each $u, v \\in V$.\nSince $\\phi$ is a linear isometry , we have:\nSo we have:\nfor each $u, v \\in V$.\nIn other words, we have:\nfor each $x, y \\in \\phi \\sqbrk V$.\nNow let $x, y \\in H$.\nSince $\\phi \\sqbrk V$ is dense in $H$, there exists sequences $\\sequence {x_n}_{n \\mathop \\in \\N}$, $\\sequence {y_n}_{n \\mathop \\in \\N}$ in $\\phi \\sqbrk V$ such that:\nand:\nin $\\struct {H, \\norm {\\, \\cdot \\,}_H}$, by Point in Closure of Subset of Metric Space iff Limit of Sequence .\nFor each $n \\in \\N$, we have:\nBy using Norm is Continuous , we have:\nby taking $n \\to \\infty$.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Conjugacy_Class_Equation",
+    "title": "Conjugacy Class Equation",
+    "statement": "Let $G$ be a group .",
+    "proof_text": "From Conjugacy Class of Element of Center is Singleton , all elements of $\\map Z G$ form their own singleton conjugacy classes .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Construction_of_Right_Angle_by_Stretched_Rope",
+    "title": "Construction of Right Angle by Stretched Rope",
+    "statement": "Let a rope be knotted at regular intervals so that there are $12$ equal segments separated by knots.",
+    "proof_text": "The rope will be stretched in the form of a triangle with sides $3$, $4$ and $5$.\nWe have that:\nand so by Pythagoras's Theorem the triangle is right angled .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Continuous_Inverse_Theorem",
+    "title": "Continuous Inverse Theorem",
+    "statement": "Let $f$ be a real function defined on an interval $I$.",
+    "proof_text": "From Strictly Monotone Real Function is Bijective , $f$ is a bijection .\nFrom Inverse of Strictly Monotone Function , $f^{-1} : J \\to I$ exists and is strictly monotone .\nFrom Surjective Monotone Function is Continuous , $f^{-1}$ is continuous .\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Converse_Hinge_Theorem",
+    "title": "Converse Hinge Theorem",
+    "statement": "If two triangles have two pairs of sides which are the same length , the triangle in which the third side is longer also has the larger angle contained by the first two sides .",
+    "proof_text": "Let $\\triangle ABC$ and $\\triangle DEF$ be two triangles in which:\nAiming for a contradiction , suppose that $\\angle BAC \\not > \\angle EDF$.\nThen either:\nor:\nLet $\\angle BAC = \\angle EDF$.\nThen by Triangle Side-Angle-Side Congruence :\nBut we know this is not the case, so by Proof by Contradiction :\nSuppose $\\angle BAC < \\angle EDF$.\nThen by Greater Angle of Triangle Subtended by Greater Side :\nBut we know this is not the case, so by Proof by Contradiction :\nThus:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Convolution_Theorem",
+    "title": "Convolution Theorem",
+    "statement": "Let $\\GF \\in \\set {\\R, \\C}$.",
+    "proof_text": "where $s_M$ is defined to be:\nThe region in the plane over which $(1)$ is to be integrated is $\\mathscr R_{t u}$ below:\nSetting $t - u = v$, that is $t = u + v$, the shaded region above is transformed into the region $\\mathscr R_{u v}$ the $u v$ plane:\nThus:\nwhere $\\dfrac {\\map \\partial {u, t} } {\\map \\partial {u, v} }$ is the Jacobian of the transformation:\nThus the right hand side of $(2)$ is:\nLet $\\map K {u, v}$ be the function defined as:\nThis function is defined over the square region in the diagram below:\nbut is zero over the lighter shaded portion.\nNow we can write $(3)$ as:\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Correspondence_Theorem_(Group_Theory)",
+    "title": "Correspondence Theorem (Group Theory)",
+    "statement": "This proof is about Correspondence Theorem in the context of Group Theory . For other uses, see Correspondence Theorem .",
+    "proof_text": "Let $H'$ be a subgroup of $G / N$, so that it consists of a certain set $\\set {h N}$ of left cosets of $N$ in $G$.\nLet us define the subset $\\map \\beta {H'} \\subseteq G$:\nThen clearly:\nAlso:\nso:\nLet $x, y \\in \\map \\beta {H'}$. Then:\nWe also have, from Quotient Group is Group :\nThus, by the Two-Step Subgroup Test , $\\map \\beta {H'} \\le G$ that contains $N$.\nConversely, let $H$ be such that $N \\le H \\le G$.\nLet $\\map \\alpha H = \\set {h N: h \\in H} \\subseteq G / N$.\nIt is easily checked that $\\map \\alpha H \\le G / N$.\nNow, let $X$ be the set of subgroups of $G$ containing $N$ and $Y$ be the set of all subgroups of $G / N$.\nWe now need to show that $\\alpha: X \\to Y$ is a bijection .\nWe do this by checking that $\\beta: Y \\to X$ is the inverse of $\\alpha$.\nTo do this, we show that $\\alpha \\circ \\beta = I_Y$ and $\\beta \\circ \\alpha = I_X$.\nSuppose $N \\le H \\le G$. Then:\nThus $\\beta \\circ \\alpha = I_X$.\nNow let $H' \\le G / N$. Then:\nThus $\\alpha \\circ \\beta = I_Y$.\nSo, by Bijection iff Inverse is Bijection , $\\alpha$ is a bijection .\nNow let $H \\lhd G$ such that $N \\le H$.\nWe show that $\\map \\alpha H = H / N \\lhd G / N$.\nThis follows by definition 3 of Normal Subgroup because: for any $h \\in H, g \\in G$\nConversely, let $H' \\lhd G / N$.\nRecall:\nHence, for any $x \\in G$ we have:\nNow for any $h' \\in \\map \\beta {H'}$, we have:\nFrom $H' \\lhd G / N$:\nFor all $x \\in G$:\nFrom $N \\lhd G$:\nThis implies:\nor:\nSimilarly, we can also show:\nHence by definition 4 of Normal Subgroup :\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Correspondence_Theorem_(Set_Theory)",
+    "title": "Correspondence Theorem (Set Theory)",
+    "statement": "This proof is about Correspondence Theorem in the context of Set Theory . For other uses, see Correspondence Theorem .",
+    "proof_text": "Denote the equivalence class of an element $x$ of $S$ by $\\eqclass x {\\RR}$ with respect to the relation $\\RR$.\nConsider the relation on $S$:\nWe prove that $\\phi$ is a bijection .\nLet $\\eqclass x \\RR = \\eqclass y \\RR$.\nThen:\nThus:\nTherefore:\nand so $\\phi$ is one-to-many .\nLet $\\eqclass x {\\RR'} = \\eqclass y {\\RR'}$.\nThen:\nThus:\nTherefore $\\eqclass x \\RR = \\eqclass y \\RR$\nHence $\\phi$ is many-to-one .\nAs $\\phi$ is both one-to-many and many-to-one , it is by definition a one-to-one relation .\nFrom the fact that $\\Rng \\phi = S / \\RR$ we have that $\\phi$ is both left-total and right-total .\nWe have demonstrated that $\\phi$ is left-total and many-to-one , and so by definition is a mapping .\nWe have demonstrated that $\\phi$ is right-total , and so by definition is a surjection .\nWe have demonstrated that $\\phi$ is one-to-one , and so by definition is an injection .\nHence by definition $\\phi$ is a bijection .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Couriers'_Meeting",
+    "title": "Couriers' Meeting",
+    "statement": "The Holy Father sent a courier from Rome to Venice, commanding him that he reach Venice in $7$ days.",
+    "proof_text": "Let $A$ and $B$ denote the couriers starting from Rome and Venice respectively.\nLet $t$ be the time in days after they set out when they meet.\nLet $x$ be the number of miles from Rome where that happens.\nWe have that:\nThus we have:\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Crossbar_Theorem",
+    "title": "Crossbar Theorem",
+    "statement": "Let $\\triangle ABC$ be a triangle .",
+    "proof_text": "Aiming for a contradiction , suppose $BC$ does not meet ray $\\overrightarrow {AD}$.\nEither $BC$ meets line $\\overleftrightarrow {AD}$ or it does not.\nIf it meets $\\overleftrightarrow {AD}$, by the Line Separation Property it must meet the ray opposite to $\\overrightarrow {AD}$ at a point $E \\ne A$.\nAccording to Proposition 3.8 (b) , $E$ is not in the interior of $\\angle CAB$.\nPoint $B$ does not lie on $\\overleftrightarrow {AD}$; this is because $D \\in \\operatorname {int} \\angle CAB$, so $D$ and $C$ lie on the same side of $\\overleftrightarrow {AB}$, so $D \\notin \\set {\\overleftrightarrow {AB} }$, so $B \\notin \\set {\\overleftrightarrow {AB} }$.\nThus, since $E \\in \\set {\\overleftrightarrow {AD} }$, we have:\nBy the same reasoning with $C$ and $B$ interchanged, we have:\nSince $E \\in BC$ and $E$ is not an endpoint, we have:\nThus by Proposition 3.7 , $E$ is in the interior of $\\angle CAB$, which is a contradiction .\nThus $\\overleftrightarrow {AD}$ does not meet $BC$ at all; that is, $B$ and $C$ are on the same side of $\\overleftrightarrow {AD}$.\nBy B-2 , we have a point $E$ such that:\nBy Lemma 3.2.2 , $C$ and $E$ are on opposite sides of $\\overleftrightarrow {AD}$.\nThus, by B-4(iii) , E and B are on opposite sides of $\\overleftrightarrow {AD}$.\nBut by Proposition 3.8(c) , $B$ is on the interior of $\\angle DAE$, so $E$ and $B$ are on the same side of $\\overleftrightarrow {AD}$\nThis is a contradiction .\nThus $\\overrightarrow {AD}$ meets $BC$.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Deduction_Theorem",
+    "title": "Deduction Theorem",
+    "statement": "Let $\\mathscr H$ be instance 1 of a Hilbert proof system .",
+    "proof_text": "For any proof of $U, \\mathbf A \\vdash \\mathbf B$, we indicate how to transform it into a proof of $U \\vdash \\mathbf A \\implies \\mathbf B$ without using the deduction rule .\nThis is done by applying the Second Principle of Mathematical Induction to the length $n$ of the proof of $U,\\mathbf A \\vdash \\mathbf B$.\nIf $n = 1$, then one of the following must occur:\nIn the first case, obviously $U \\vdash \\mathbf B$.\nBy Axiom 1 , $U \\vdash \\mathbf B \\implies \\paren {\\mathbf A \\implies \\mathbf B}$.\nBy Modus Ponens , $U \\vdash \\mathbf A \\implies \\mathbf B$.\nIn the second case, $U \\vdash \\mathbf A \\implies \\mathbf A$ by the Law of Identity .\nFinally, in the third case, we have $U \\vdash \\mathbf B$.\nAs in the first case, we conclude $U \\vdash \\mathbf A \\implies \\mathbf B$.\nIf $n > 1$, the only other option for arriving at $U, \\mathbf A \\vdash \\mathbf B$ is through Modus Ponens .\nThat is to say, two earlier lines of the proof contain:\nfor some WFF $\\mathbf C$.\nBut then these sequents have shorter proofs .\nHence, they satisfy the induction hypothesis.\nThus, we may infer:\nThis allows us to give the following proof of $U \\vdash \\mathbf A \\implies \\mathbf B$:\nThe result follows by the Second Principle of Mathematical Induction .\n$\\blacksquare$",
+    "proof_steps": [
+      "$\\mathbf B \\in U$",
+      "$\\mathbf B = \\mathbf A$",
+      "$\\mathbf B$ is an axiom or a theorem of $\\mathscr H$"
+    ]
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Deterministic_Time_Hierarchy_Theorem",
+    "title": "Deterministic Time Hierarchy Theorem",
+    "statement": "Let $\\map f n$ be a time-constructible function .",
+    "proof_text": "Let $H_f$ be a set defined as follows:\nwhere:\nLet $m$ be the size of $\\tuple {\\sqbrk M, x}$.\nWe know that we can decide membership of $H_f$ by way of a (deterministic) Turing machine that:\nAt each step, the simulating machine needs to look through the definition of $M$ to decide what the next action would be.\nIt is safe to say that this takes at most $\\map f m^3$ operations, so:\nAiming for a contradiction , suppose:\nThen we can construct some machine $K$ which:\nConstruct another machine $N$ which:\nLet $m_n$ be the length of $\\sqbrk {M_N}$.\nThen $m$ (the length of the input to $K$) is twice $m_n$ plus some delimiter symbol, so:\n$N$'s running time is thus:\nNow consider the case $M_N = N$.\nThat is we feed $\\sqbrk N$ as input into $N$ itself).\nIn this case $m_n$ is the length of $\\sqbrk N$.\nTherefore, $K$ does not exist.\nSo, by Proof by Contradiction :\nSubstituting $2 n + 1$ for $m$, we get:\nand, from the earlier result:\n$\\blacksquare$",
+    "proof_steps": [
+      "If $N$ accepts $\\sqbrk N$ (which we know it does in at most $\\map f {m_n}$ operations): By the definition of $N$, $K$ rejects $\\tuple {\\sqbrk N, \\sqbrk N}$ Therefore, by the definition of $K$, $\\tuple {\\sqbrk N, \\sqbrk N} \\notin H_f$ Therefore, by the definition of $H_f$, $N$ does not accept $\\sqbrk N$ in $\\map f {m_n}$ steps -- a contradiction .",
+      "If $N$ rejects $\\sqbrk N$ (which we know it does in at most $\\map f {m_n}$ operations): By the definition of $N$, $K$ accepts $\\tuple {\\sqbrk N, \\sqbrk N}$ Therefore, by the definition of $K$, $\\tuple {\\sqbrk N, \\sqbrk N} \\in H_f$ Therefore, by the definition of $H_f$, $N$ does accept $\\sqbrk N$ in $\\map f {m_n}$ steps -- a contradiction ."
+    ]
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Dido's_Problem",
+    "title": "Dido's Problem",
+    "statement": "The new City of Carthage is to be founded.",
+    "proof_text": "Let the shoreline be assumed to be a straight line .\nImagine the enclosure takes some geometric figure $S$.\nLet $S$ be reflected in the shoreline.\nThen the entire geometric figure formed by $S$ along with its reflection $S'$ encloses the largest area for double the length of the boundary line.\nThis largest area is a circle .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Dimension_Theorem_for_Vector_Spaces",
+    "title": "Bases of Vector Space have Equal Cardinality",
+    "statement": "Let $R$ be a division ring .",
+    "proof_text": "We will first prove that there is an injection from $X$ to $Y$.\nLet $x \\in X$.\nBy Expression of Vector as Linear Combination from Basis is Unique: General Result , there is a unique finite subset $C_x$ of $R \\times Y$ such that:\nDefine $\\Phi: X \\to \\powerset Y$ by:\nWe next show that $\\sequence {\\map \\Phi x}_{x \\mathop \\in X}$ satisfies the marriage condition .\nThat is, for every finite subset $F$ of $X$:\nSince $X$ is a basis , it is linearly independent .\nBy Subset of Linearly Independent Set is Linearly Independent , $F$ is also linearly independent .\nBy the definition of $\\Phi$:\nBy Finite Union of Finite Sets is Finite , $\\ds \\bigcup \\map \\Phi F$ is finite .\nThus by Size of Linearly Independent Subset is at Most Size of Finite Generator :\nBy Hall's Marriage Theorem , there is an injection from $X$ into $Y$.\nPrecisely the same argument with $X$ and $Y$ interchanged shows that there is an injection from $Y$ into $X$ as well.\nThus by the Cantor-Bernstein-Schröder Theorem , $X$ and $Y$ are equivalent .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Dirichlet's_Drawer_Principle",
+    "title": "Dirichlet's Box Principle",
+    "statement": "Let $S$ be a finite set whose cardinality is $n$.",
+    "proof_text": "Aiming for a contradiction , suppose no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements .\nThen the maximum number of elements of any $S_i$ would be $\\ceiling {\\dfrac n k} - 1$.\nSo the total number of elements of $S$ would be no more than $k \\paren {\\ceiling {\\dfrac n k} - 1} = k \\ceiling {\\dfrac n k} - k$.\nThere are two cases:\nSuppose $k \\divides n$.\nThen $\\ceiling {\\dfrac n k} = \\dfrac n k$ is an integer and:\nThus:\nThis contradicts the fact that $\\card S = n$.\nHence our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nNext, suppose that $k \\nmid n$.\nThen:\nand again this contradicts the fact that $\\card S = n$.\nIn the same way, our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nHence, by Proof by Contradiction , there has to be at least $\\ceiling {\\dfrac n k}$ elements in at least one $S_i \\subseteq S$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Dirichlet's_Shelf_Principle",
+    "title": "Dirichlet's Box Principle",
+    "statement": "Let $S$ be a finite set whose cardinality is $n$.",
+    "proof_text": "Aiming for a contradiction , suppose no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements .\nThen the maximum number of elements of any $S_i$ would be $\\ceiling {\\dfrac n k} - 1$.\nSo the total number of elements of $S$ would be no more than $k \\paren {\\ceiling {\\dfrac n k} - 1} = k \\ceiling {\\dfrac n k} - k$.\nThere are two cases:\nSuppose $k \\divides n$.\nThen $\\ceiling {\\dfrac n k} = \\dfrac n k$ is an integer and:\nThus:\nThis contradicts the fact that $\\card S = n$.\nHence our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nNext, suppose that $k \\nmid n$.\nThen:\nand again this contradicts the fact that $\\card S = n$.\nIn the same way, our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nHence, by Proof by Contradiction , there has to be at least $\\ceiling {\\dfrac n k}$ elements in at least one $S_i \\subseteq S$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Dishonest_Butler",
+    "title": "Dishonest Butler",
+    "statement": "A dishonest butler removes $3$ pints of wine from a barrel, replacing them with water.",
+    "proof_text": "Let $x$ pints be the total quantity of wine in the barrel to start with.\nAfter the first theft, there are $x - 3$ pints left.\nThe concentration of wine is now $\\dfrac {x - 3} x$.\nSo the second theft removes $3 \\dfrac {x - 3} x$ pints of wine from the cask.\nThe concentration of wine is now $\\dfrac {x - 3 - 3 \\frac {x - 3} x} x$.\nSo the third theft removes $3 \\dfrac {x - 3 - 3 \\frac {x - 3} x} x$ pints of wine.\nThe total removed is now $\\dfrac x 2$, and so:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Divergence_Test",
+    "title": "Divergence Test",
+    "statement": "Let $\\sequence {a_n}$ be a sequence in $\\R$ which does not converge to $0$.",
+    "proof_text": "We know that Terms in Convergent Series Converge to Zero .\nThis is the contrapositive statement of this theorem.\nThus, the theorem holds by Rule of Transposition .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Division_Theorem",
+    "title": "Division Theorem",
+    "statement": "For every pair of integers $a, b$ where $b \\ne 0$, there exist unique integers $q, r$ such that $a = q b + r$ and $0 \\le r < \\size b$:",
+    "proof_text": "From Division Theorem: Positive Divisor :\nThat is, the result holds for positive $b$.\n$\\Box$\nIt remains to show that the result also holds for negative values of $b$.\nLet $b < 0$.\nConsider:\nwhere $\\size b$ denotes the absolute value of $b$: by definition $\\size b > 0$.\nFrom Division Theorem: Positive Divisor , we have the existence of $\\tilde q, \\tilde r \\in \\Z$ such that:\nSince $\\size b = -b$:\nTaking:\nthe existence has been proved of integers $q$ and $r$ that satisfy the requirements.\nThe proof that they are unique is the same as that for the proof for positive $b$ , but with $\\size b$ replacing $b$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Double_Induction_Principle",
+    "title": "Double Induction Principle",
+    "statement": "Let $M$ be a class .",
+    "proof_text": "The proof proceeds by general induction .\nLet an element $x$ of $M$ be defined as:\nLet the hypothesis be assumed.\nFirst we demonstrate a lemma :",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Double_Superinduction_Principle",
+    "title": "Double Superinduction Principle",
+    "statement": "Let $M$ be a class .",
+    "proof_text": "The proof proceeds by Proof by Superinduction .\nLet an element $x$ of $M$ be defined as:\nLet the hypothesis be assumed.\nFirst we demonstrate a lemma :",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Duality_Principle_(Boolean_Algebras)",
+    "title": "Duality Principle (Boolean Algebras)",
+    "statement": "This proof is about duality principle in the context of boolean algebra . For other uses, see duality principle .",
+    "proof_text": "Let us take the axioms of a Boolean algebra $\\struct {S, \\wedge, \\vee, \\neg}$:\nIt can be seen by inspection that exchanging $\\wedge$ and $\\vee$, and $\\bot$ and $\\top$ throughout, does not change the axioms.\nThus, what you get is a Boolean algebra again.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Duality_Principle_for_Sets",
+    "title": "Duality Principle for Sets",
+    "statement": "This proof is about Duality Principle in the context of Set Theory . For other uses, see Duality Principle .",
+    "proof_text": "Follows from:\n$\\blacksquare$",
+    "proof_steps": [
+      "Algebra of Sets is Huntington Algebra",
+      "Principle of Duality of Huntington Algebras"
+    ]
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Embedding_Theorem",
+    "title": "Embedding Theorem",
+    "statement": "The following is a frequently occurring circumstance in the field of abstract algebra .",
+    "proof_text": "There are two cases to consider: when $T_1$ and $S_2$ are disjoint , and when they are not.\nSuppose $T_1$ and $S_2$ are disjoint .\nLet $S_1$ be the set $T_1 \\cup \\paren {S_2 \\setminus T_2}$.\nThen we can define the mapping $h: S_2 \\to S_1$ as:\nx & : x \\in S_2 \\setminus T_2 \\\\\n\\map {f^{-1} } x & : x \\in T_2\n\\end{cases}$\nBecause $T_1$ and $S_2$ are disjoint , $h$ can be seen to be a bijection .\nWhat $h$ is doing is that it effectively \"slots\" $T_1$ into the gap in $S_2$ that was taken up by the removed $T_2$.\nWe are going to show that $\\struct {T_1, \\oplus_1}$ is embedded in $\\struct {S_1, *_1}$.\nThe operation $*_1$ is defined as the transplant of $*_2$ under $h$ .\nThus by the Transplanting Theorem :\nLet $x, y \\in T_1$.\nThen, from the definition of $h$ above:\nand similarly:\nSo:\nproving that $x \\oplus_1 y$ is closed .\nThus:\nthat is, $\\struct {T_1, \\oplus_1}$ is embedded in $\\struct {S_1, *_1}$.\nNow, let $g = h^{-1}$.\nBy the definition of $*_1$, $g$ is an isomorphism from $\\struct {S_1, *_1}$ onto $\\struct {S_2, *_2}$.\nThen:\nThus:\nSo $g$ is an extension of $f$.\nWe have therefore proved that the embedding theorem holds when $T_1$ and $S_2$ are disjoint .\n$\\Box$\nNext, suppose $T_1$ and $S_2$ are not disjoint .\nWe can use Exists Bijection to a Disjoint Set to assume the existence of a bijection $k: S_2 \\to S_3$ such that $S_3 \\cap T = \\O$.\nLet $*'$ be the transplant of $*$ under $k$ .\nLet:\nThen:\nSo $T_3$ is closed under $*'$.\nLet $*' {\\restriction_{T_3} }$ be the operation on $T_3$ induced by $*'$ .\nThen $\\struct {T_3, *' {\\restriction_{T_3} } }$ is embedded in $\\struct {S_3, *'}$.\nThus $k \\circ f$ is an isomorphism from $\\struct {T_1, \\oplus_1}$ onto $\\struct {T_3, *' {\\restriction_{T_3} } }$.\n$S_3$ has been constructed so as to be disjoint from $T_1$.\nIn such a case it has already been shown that the Embedding Theorem holds.\nThat is:\nwhere $\\circ$ denotes the composition of $k$ with $f$\nLet $g = k^{-1} \\circ g_1$.\nLet $x \\in T$.\nThen:\nand so $g$ extends $f$.\nAs $k$ is an isomorphism from $\\struct {S_2, *_2}$ onto $\\struct {S_3, *'}$, then:\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Estimation_Lemma_for_Contour_Integrals",
+    "title": "Estimation Lemma for Contour Integrals",
+    "statement": "Let $C$ be a contour .",
+    "proof_text": "By definition of contour , $C$ is a concatenation of a finite sequence $C_1, \\ldots, C_n$ of directed smooth curves .\nLet $C_k$ be parameterized by the smooth path $\\gamma_k: \\closedint {a_k} {b_k} \\to \\C$ for all $k \\in \\set {1, \\ldots, n}$.\nThen:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Exchange_Principle",
+    "title": "Exchange Principle",
+    "statement": "Let $D$ be a strongly minimal set in $\\MM$.",
+    "proof_text": "Let $\\map D x$ be a formula defining $D$, which exists since by definition, strongly minimal sets are definable.\nTo simplify exposition, we will assume below that all further mentioned formulas are  $\\LL$-formulas with parameters from $A$, in addition to whatever other parameters are supplied.\nSuppose $b$ is algebraic over $A \\cup \\set c$ but not over $A$.\nBy definition of being algebraic, there is some $\\map \\phi {x, c}$ with $x$ free such that $\\MM \\models \\map \\phi {b, c}$ and $\\set {m \\in \\MM: \\MM \\models \\map \\phi {m, c} }$ is finite .\nConsequently, the subset $\\set {m \\in \\MM : \\MM \\models \\map D m \\wedge \\phi(m, c) } = \\set {d \\in D : \\MM \\models \\map \\phi {d, c} }$ must have some finite $n \\in \\N$ many elements.\nLet $\\map \\psi y$ be the formula\nwhich asserts that:\nNote the dependence on the free variable $y$.\nWe will argue that $\\map \\phi {b, x} \\wedge \\map \\psi x$ demonstrates the algebraicity of $c$ over $A \\cup \\set b$.\nAiming for a contradiction , suppose that $\\set {d \\in D: \\MM \\models \\map \\phi {b, d} \\wedge \\map \\psi d}$ is infinite.\nThis can be done similarly to how $\\map \\psi y$ was defined above.\nThus $\\set {d \\in D : \\MM \\models \\map \\phi {b, d} \\wedge \\map \\psi d} = \\set {m \\in \\MM : \\MM \\models \\map \\phi {b, m} \\wedge \\map \\psi m}$ is finite .\nSince $\\MM \\models \\map \\phi {b, c} \\wedge \\map \\psi c$, this means that $c$ is definable over $A \\cup \\set b$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Extended_Completeness_Theorem_for_Propositional_Tableaux_and_Boolean_Interpretations",
+    "title": "Extended Completeness Theorem for Propositional Tableaux and Boolean Interpretations",
+    "statement": "Tableau proofs (in terms of propositional tableaux ) are a strongly complete proof system for boolean interpretations .",
+    "proof_text": "Let $\\mathbf A$ be a semantic consequence of $\\mathbf H$ for boolean interpretations .\nThat is, if $v \\models_{\\mathrm{BI} } \\mathbf H$, also $v \\models_{\\mathrm{BI} } \\mathbf A$.\nBy the truth function for $\\neg$ , it follows that for such $v$:\nTherefore, $\\mathbf H' := \\mathbf H \\cup \\set {\\mathbf A}$ is unsatisfiable for boolean interpretations .\nSince $\\mathbf H'$ is countable , it follows from the Compactness Theorem for Boolean Interpretations that:\nBy the Tableau Extension Lemma , there exists a finite finished tableau $T$ for $\\mathbf H $.\nBy definition of finished tableau , every branch of $T$ is finished or contradictory .\nFrom the Corollary to the Finished Branch Lemma , $\\Phi \\sqbrk \\Gamma$ is satisfiable for any finished branch $\\Gamma$.\nBut since $\\mathbf H' ' \\subseteq \\Phi \\sqbrk \\Gamma$, this would imply $\\mathbf H' '$ is also satisfiable , which is a contradiction.\nIt follows that every branch of $T$ is contradictory .\nSince $\\mathbf H' ' \\subseteq \\mathbf H'$, replacing the hypothesis set $\\mathbf H'$ of $T$ with $\\mathbf H' '$ yields another propositional tableau $T'$.\nSince every branch of $T'$ is contradictory , $T'$ is a tableau confutation of $\\mathbf H'$.\nRecalling that $\\mathbf H' = \\mathbf H \\cup \\set {\\neg \\mathbf A}$, we conclude that $T'$ is a tableau proof of $\\mathbf A$ from $\\mathbf H$:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Extended_Soundness_Theorem_for_Propositional_Tableaux_and_Boolean_Interpretations",
+    "title": "Extended Soundness Theorem for Propositional Tableaux and Boolean Interpretations",
+    "statement": "Tableau proofs (in terms of propositional tableaux ) are a strongly sound proof system for boolean interpretations .",
+    "proof_text": "By definition of tableau proof , $\\mathbf H \\vdash_{\\mathrm{PT}} \\mathbf A$ means:\nBy Tableau Confutation implies Unsatisfiable , it follows that $\\mathbf H \\cup \\set {\\neg\\mathbf A}$ is unsatisfiable for boolean interpretations .\nTherefore, if some boolean interpretation $v$ models $\\mathbf H$:\nthen since $\\mathbf H \\cup \\set {\\neg\\mathbf A}$ is unsatisfiable :\nNow by definition of the relation $\\models_{\\mathrm{BI}}$ , it must be that:\nBy the truth table for $\\neg$ , this implies:\nwhich is to say $v \\models_{\\mathrm{BI}} \\mathbf A$.\nHence:\nthat is, $\\mathbf A$ is a $\\mathrm{BI}$- semantic consequence of $\\mathbf H$:\nwhich was to be shown.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Extension_Theorem_for_Homomorphisms",
+    "title": "Extension Theorem for Homomorphisms",
+    "statement": "Let $\\struct {S, \\circ}$ be a commutative semigroup with cancellable elements",
+    "proof_text": "It is proved that $\\struct {C, \\circ}$ is a subsemigroup of $\\struct {S, \\circ}$ by Cancellable Elements of Semigroup form Subsemigroup .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Extension_Theorem_for_Isomorphisms",
+    "title": "Extension Theorem for Isomorphisms",
+    "statement": "Let the following conditions be fulfilled:",
+    "proof_text": "Let $C$ be the subsemigroup of cancellable elements of $S$.\nIt is proved that this is a semigroup by Cancellable Elements of Semigroup form Subsemigroup .\nThe set of cancellable elements of $T$ is $\\phi \\sqbrk C$.\nBy the Extension Theorem for Homomorphisms , there is:\nand:\nTherefore, $\\psi \\circ \\phi'$ is an endomorphism of $S'$ whose restriction to $S$ is the inclusion mapping $\\iota_S: S \\to S'$:\nFrom Inclusion Mapping is Monomorphism , $\\iota_S$ is a monomorphism from $S$ into $S'$.\nBut by the Extension Theorem for Homomorphisms , the identity automorphism of $S'$ is the only endomorphism of $S'$ extending $\\iota_S$ from $S$ into $S'$, so:\nSimilarly:\nSo by Bijection iff Left and Right Inverse , $\\phi'$ is a bijection and therefore an isomorphism .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Extension_Theorem_for_Total_Orderings",
+    "title": "Extension Theorem for Total Orderings",
+    "statement": "Let the following conditions be fulfilled:",
+    "proof_text": "By Inverse Completion is Commutative Semigroup :",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Factors_of_Mersenne_Number_M67",
+    "title": "Factors of Mersenne Number M67",
+    "statement": "The Mersenne number $M_{67}$ has the factors :",
+    "proof_text": "First we calculate $M_{67}$, which is $2^{67} - 1$:\nas follows:\nas follows:\nas follows:\nas follows:\nSubtracting $1$ to get $M_{67}$:\nNow to calculate $193 \\, 707 \\, 721 \\times 761 \\, 838 \\, 257 \\, 287$:\nThus:\nas we were to demonstrate.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Fermat's_Last_Theorem",
+    "title": "Fermat's Last Theorem",
+    "statement": "The proof of this theorem is beyond the current scope of $\\mathsf{Pr} \\infty \\mathsf{fWiki}$, and indeed, is beyond the understanding of many high level mathematicians.",
+    "proof_text": "The proof of this theorem is beyond the current scope of $\\mathsf{Pr} \\infty \\mathsf{fWiki}$, and indeed, is beyond the understanding of many high level mathematicians.\nFor the curious reader, the proof can be found here , in a paper published by Andrew Wiles , entitled Modular elliptic curves and Fermat's Last Theorem , in volume 141, issue 3, pages 443 through 551 of the Annals of Mathematics .\nIt is worth noting that Wiles' proof was indirect in that he proved a special case of the Taniyama-Shimura Conjecture , which then along with the already proved Epsilon Conjecture implied that integral solutions of the theorem were impossible.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/First_Subsequence_Rule",
+    "title": "First Subsequence Rule",
+    "statement": "Let $T = \\struct {A, \\tau}$ be a Hausdorff space .",
+    "proof_text": "As stated, let $T = \\struct {A, \\tau}$ be a Hausdorff space .\nLet $\\sequence {x_n}$ be a sequence in $T$.\nLet $\\sequence {y_n}$ and $\\sequence {z_n}$ be convergent subsequences of $\\sequence {x_n}$ with different limits .\nAiming for a contradiction , suppose $\\sequence {x_n}$ is convergent .\nFrom Convergent Sequence in Hausdorff Space has Unique Limit , $\\sequence {x_n}$ has exactly one limit .\nFrom Limit of Subsequence equals Limit of Sequence , $\\sequence {y_n}$ has the same limit as $\\sequence {x_n}$.\nThis contradicts the assertion that $\\sequence {y_n}$ and $\\sequence {z_n}$ have different limits .\nHence by Proof by Contradiction it must be the case that $\\sequence {x_n}$ is divergent .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/First_Supplement_to_Law_of_Quadratic_Reciprocity",
+    "title": "First Supplement to Law of Quadratic Reciprocity",
+    "statement": "$\\quad \\paren {\\dfrac {-1} p} = \\paren {-1}^{\\paren {p - 1} / 2} = \\begin {cases}\n+1 & : p \\equiv 1 \\pmod 4 \\\\\n-1 & : p \\equiv 3 \\pmod 4\n\\end {cases}$",
+    "proof_text": "From Euler's Criterion for Quadratic Residue , and the definition of the Legendre symbol , we have that:\nThe result follows by putting $a = -1$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Five_Color_Theorem",
+    "title": "Five Color Theorem",
+    "statement": "A planar graph $G$ can be assigned a proper vertex $k$-coloring such that $k \\le 5$.",
+    "proof_text": "The proof proceeds by the Principle of Mathematical Induction on the number of vertices .\nFor all $n \\in \\N_{> 0}$, let $\\map P n$ be the proposition :",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Five_Lemma",
+    "title": "Five Lemma",
+    "statement": "Let $A$ be a commutative ring with unity .",
+    "proof_text": "First suppose that $\\phi_2$ and $\\phi_4$ are surjective and $\\phi_5$ is injective .\nLet $n_3 \\in N_3$ be any element .\nWe want to find $x \\in M_3$ such that $\\map {\\phi_3} x = n_3$.\nLet $n_4 = \\map {\\beta_3} {n_3} \\in N_4$.\nSince $\\phi_4$ is surjective , there exists $m_4 \\in M_4$ such that $\\map {\\phi_4} {m_4} = n_4$.\nSince the rows are exact, we have that:\nThat is:\nSince the diagram is commutative, this implies that $\\map {\\phi_5 \\circ \\alpha_4} {m_4} = 0$.\nSince $\\phi_5$ is injective , this means that $\\map {\\alpha_4} {m_4} = 0$.\nThat is:\nSince the rows are exact, this means that $m_4 \\in \\Img {\\alpha_3}$, say:\nThus we have:\nUsing the fact that $\\beta_3$ is a homomorphism this means that:\nBy exactness of the rows we therefore have $n_3 - \\map {\\phi_3} {m_3} = \\map {\\beta_2} {n_2}$ for some $n_2 \\in N_2$.\nBy hypothesis $\\phi_2$ is surjective , so there exists $m_2 \\in M_2$ such that:\nSince the diagram is commutative, we have therefore:\nFinally by the homomorphism property this shows that:\nas required.\nNow suppose that $\\phi_2$ and $\\phi_4$ are injective and $\\phi_1$ is surjective .\nLet $m_3 \\in M_3$ such that $\\map {\\phi_3} {m_3} = 0$.\nWe want to show that $m_3 = 0$.\nFirst of all $\\map {\\phi_3} {m_3} = 0$ implies that $\\map {\\beta_3 \\circ \\phi_3} {m_3} = 0$.\nSince the diagram is commutative, this implies that $\\map {\\phi_4 \\circ \\alpha_3} {m_3} = 0$.\nSince $\\phi_4$ is injective we have:\nSince the rows are exact, we therefore have $m_3 = \\map {\\alpha_2} {m_2}$ for some $m_2 \\in M_2$.\nLet $n_2 = \\map {\\phi_2} {m_2} \\in N_2$.\nBy commutativity of the diagram, we have:\nBy exactness of the rows it follows that there exists $n_1 \\in N_1$ such that $n_2 = \\map {\\beta_1} {n_1}$.\nSince $\\phi_1$ is assumed surjective this means that $n_1 = \\map {\\phi_1} {m_1}$ for some $m_1 \\in M_1$.\nNow:\nThus by the homomorphism property:\nSince $\\phi_2$ is assumed injective this means that $m_2 = \\map {\\alpha_1} {m_1}$.\nFinally, since the rows are exact we have:\nas required.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Forward-Backward_Induction",
+    "title": "Forward-Backward Induction",
+    "statement": "Let $P$ be a propositional function on the natural numbers $\\N$.",
+    "proof_text": "Aiming for a contradiction , suppose $\\exists k \\in \\N$ such that $\\map P k$ is false .\nFrom Power of Real Number greater than One is Unbounded Above‎ :\nTherefore we can find:\nNow let us create the set :\nAs $k < M$ and $\\map P k$ is false :\nAs $\\forall x \\in S: x < M$ it follows that $S$ is bounded above .\nSo from Set of Integers Bounded Above by Integer has Greatest Element , $S$ has a greatest element , which we call $m$.\nWe have that $\\map P n$ holds for $m < n \\le M$.\nHence $\\map P {m + 1}$ holds.\nBut $\\map P {m + 1} \\implies \\map P m$.\nThis contradicts our assertion that $\\map P n$ is false .\nHence by Proof by Contradiction there can be no such $k \\in \\N$ such that $\\map P k$ is false .\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Four_Color_Theorem",
+    "title": "Four Color Theorem",
+    "statement": "Let $G$ be a planar graph .",
+    "proof_text": "It can be shown that it is necessary to consider only planar graphs which are simple .\nHence any discussion below about a graph will carry the assumption that it is both simple and planar .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Four_Squares_Theorem",
+    "title": "Lagrange's Four Square Theorem",
+    "statement": "This proof is about Lagrange's Four Square Theorem . For other uses, see Lagrange's Theorem .",
+    "proof_text": "$1$ can trivially be expressed as a sum of four squares :\nFrom Product of Sums of Four Squares it is sufficient to show that each prime can be expressed as a sum of four squares .\nThe prime number $2$ certainly can: $2 = 1^2 + 1^2 + 0^2 + 0^2$.\nIt remains to consider the odd primes .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Friendship_Theorem",
+    "title": "Friendship Theorem",
+    "statement": "Let there be a group of $6$ people.",
+    "proof_text": "This is a simple example of Ramsey's Theorem .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Futurama_Theorem",
+    "title": "Futurama Theorem",
+    "statement": "Let $A_{n - 2} \\subset A_n$ be a subgroup of the alternating group on $n$ letters $A_n$.",
+    "proof_text": "Let $w = (n [n - 1])$, that is, the transposition of the $n^{th}$ and $n - 1^{th}$ letters that we consider $A_n$ acting on.\nThen the permutation $x^{-1} w$ is the $y$ of the theorem.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/General_Commutativity_Theorem",
+    "title": "General Commutativity Theorem",
+    "statement": "Let $\\struct {S, \\circ}$ be a semigroup .",
+    "proof_text": "The proof will proceed by the Principle of Mathematical Induction on $\\N_{>0}$.\nLet $T$ be the set of all $n \\in \\N_{>0}$ such that:\nholds for all sequences $\\sequence {a_k}_{1 \\mathop \\le k \\mathop \\le n}$ of $n$ elements of $S$ which satisfy:\nfor every permutation $\\sigma: \\N_n \\to \\N_n$.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/General_Distributivity_Theorem",
+    "title": "General Distributivity Theorem",
+    "statement": "Let $\\struct {R, \\circ, *}$ be a ringoid .",
+    "proof_text": "Proof by induction :\nFor all $n \\in \\Z_{> 0}$, let $\\map P n$ be the proposition :\nWe have that $\\struct {R, \\circ, *}$ is a ringoid , and so:",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Greatest_Lower_Bound_Property",
+    "title": "Greatest Lower Bound Property",
+    "statement": "Let $S \\subset \\R$ be a non-empty subset of the set of real numbers such that $S$ is bounded below .",
+    "proof_text": "Let $T = \\set {x \\in \\R: -x \\in S}$.\nBy Set of Real Numbers is Bounded Below iff Set of Negatives is Bounded Above :\nThus by the Least Upper Bound Property , $T$ admits a supremum in $\\R$.\nFrom Negative of Supremum is Infimum of Negatives :\nThat is, by definition of $T$:\nand so $S$ admits an infimum in $\\R$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Handshake_Lemma",
+    "title": "Handshake Lemma",
+    "statement": "Let $G$ be a $\\tuple {p, q}$- undirected graph , which may be a multigraph or a loop-graph , or both.",
+    "proof_text": "In the notation $\\tuple {p, q}$- graph , $p$ is its order and $q$ its size .\nThat is, $p$ is the number of vertices in $G$, and $q$ is the number of edges in $G$.\nEach edge is incident to exactly two vertices .\nThe degree of each vertex is defined as the number of edges to which it is incident .\nSo when we add up the degrees of all the vertices , we are counting all the edges of the graph twice.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Hinge_Theorem",
+    "title": "Hinge Theorem",
+    "statement": "If two triangles have two pairs of sides which are the same length, the triangle with the larger included angle also has the larger third side.",
+    "proof_text": "Let $\\triangle ABC$ and $DEF$ be two triangles in which $AB = DE$, $AC = DF$, and $\\angle CAB > \\angle FDE$.\nConstruct $\\angle EDG$ on $DE$ at point $D$.\nPlace $G$ so that $DG = AC$ .\nJoin $EG$ and $FG$.\nSince $AB = DE$, $\\angle BAC = \\angle EDG$, and $AC = DG$, by Triangle Side-Angle-Side Congruence :\nBy Euclid's first common notion :\nThus by Isosceles Triangle has Two Equal Angles :\nSo by Euclid's fifth common notion :\nSince $\\angle EFG > \\angle EGF$, by Greater Angle of Triangle Subtended by Greater Side :\nTherefore, because $EG = BC$, $BC > EF$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Inclusion-Exclusion_Principle",
+    "title": "Inclusion-Exclusion Principle",
+    "statement": "Let $\\SS$ be an algebra of sets .",
+    "proof_text": "Proof by induction :\nFor all $n \\in \\N_{>0}$, let $\\map P n$ be the proposition :\n$\\map P 1$ is true, as this just says $\\map f {A_1} = \\map f {A_1}$.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Inequality_Rule_for_Real_Sequences",
+    "title": "Inequality Rule for Real Sequences",
+    "statement": "Let $\\sequence {x_n}$ and $\\sequence {y_n}$ be sequences in $\\R$ .",
+    "proof_text": "Suppose $l > m$.\nThen:\nLet $\\epsilon = \\dfrac {l - m} 2$.\nThen:\nWe are given that:\nBy definition of the limit of a real sequence , we can find $N_1$ such that:\nwhere $\\size {x_n - l}$ denotes the absolute value of $x_n - l$\nSuppose $n \\ge N_1$\nIf $x_n \\ge l$ then $x_n > \\dfrac {l + m} 2$\nIf $x_n < l$ then:\nIn either case $x_n > \\dfrac {l+m} 2$\nWe are also given that:\nSimilarly we can find $N_2$ such that:\nSuppose $n \\ge N_2$\nIf $y_n \\le m$ then $y_n < \\dfrac {l + m} 2$\nIf $y_n > m$ then:\nIn either case $y_n < \\dfrac {l + m} 2$\nLet $N = \\max \\set {N_1, N_2}$.\nThen if $n > N$, both the above inequalities will be true:\nThus $\\forall n > N$:\nIt has been shown that:\nTaking the contrapositive :\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Inertia_Principle",
+    "title": "Inertia Principle",
+    "statement": "Let $\\sequence {a_n}$ be a sequence in $\\R$ .",
+    "proof_text": "Pick $\\epsilon = l - c > 0$ (as $c < l$).\nAs $a_n \\to l$ as $n \\to \\infty$, then $\\exists N \\in \\N$ such that:\nEquivalently:\nFor each $a_n$, either $a_n \\ge l$ or $a_n < l$.\nIf $a_n < l$, then $0 < l - a_n$, so $\\size {l - a_n} = l - a_n$.\nThen:\nIf $a_n \\ge l$, and $l > c$, then $a_n > c$.\nSo:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Inscribed_Angle_Theorem",
+    "title": "Inscribed Angle Theorem",
+    "statement": "An inscribed angle is equal to half the angle that is subtended by that arc .",
+    "proof_text": "Let $ABC$ be a circle , let $\\angle BEC$ be an angle at its center , and let $\\angle BAC$ be an angle at the circumference .\nLet these angles have the same arc $BC$ at their base.\nLet $AE$ be joined and drawn through to $F$.\nSince $EA = EB$, then from Isosceles Triangle has Two Equal Angles we have that $\\angle EBA = \\angle EAB$.\nSo $\\angle EBA + \\angle EAB = 2 \\angle EAB$.\nBut from Sum of Angles of Triangle equals Two Right Angles we have that $\\angle BEF = \\angle EBA + \\angle EAB$.\nThat is, $\\angle BEF = 2 \\angle EAB$.\nFor the same reason, $\\angle FEC = 2 \\angle EAC$.\nSo adding them together, we see that $\\angle BEC = 2 \\angle BAC$.\nNow consider the point $D$, from which we have another angle $\\angle BDC$.\nLet $DE$ be joined and produced to $G$.\nSimilarly, we prove that $\\angle GEC = 2 \\angle EDC$.\nThen $\\angle GEB = 2 \\angle EDB$.\nTherefore $\\angle BEC$ which remains is equal to $2 \\angle BDC$.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Integration_by_Partial_Fractions",
+    "title": "Integration by Partial Fractions",
+    "statement": "Let $\\map R x = \\dfrac {\\map P x} {\\map Q x}$ be a rational function over $\\R$ such that the degree of the polynomial $P$ is strictly smaller than the degree of the polynomial $Q$ .",
+    "proof_text": "$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Integration_by_Parts",
+    "title": "Integration by Parts",
+    "statement": "Let $f$ and $g$ be real functions which are continuous on the closed interval $\\closedint a b$.",
+    "proof_text": "The technique of solving an integral in the form $\\ds \\int \\map f t \\map G t \\rd t$ in this manner is called integration by parts .\nIts validity as a solution technique stems from the fact that it may be possible to choose $f$ and $G$ such that $G$ is easier to differentiate than to integrate .\nThus the plan is to reduce the integral to one such that $\\ds \\int \\map F t \\map g t \\rd t$ is easier to solve than $\\ds \\int \\map f t \\map G t \\rd t$.\nIt may be, of course, that one or more further applications of this technique are needed before the solution can be extracted.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Integration_by_Substitution",
+    "title": "Integration by Substitution",
+    "statement": "Let $\\phi$ be a real function which has a derivative on the closed interval $\\closedint a b$.",
+    "proof_text": "The usefulness of the technique of Integration by Substitution stems from the fact that it may be possible to choose $\\phi$ such that $\\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u$ (despite its seeming complexity in this context) may be easier to integrate .\nIf $\\phi$ is a trigonometric function , the use of trigonometric identities to simplify the integrand is called integration by trigonometric substitution (or simply trig substitution ).\nCare must be taken to address the domain and image of $\\phi$.\nThis consideration frequently arises when inverse trigonometric functions are involved.",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Intercept_Theorem",
+    "title": "Parallel Transversal Theorem",
+    "statement": "In the words of Euclid :",
+    "proof_text": "Let $\\triangle ABC$ be a triangle .\nLet $DE$ be drawn parallel to the side $BC$.\nWe need to show that $BD : DA = CE : EA$.\nLet $BE$ and $CD$ be joined.\nFrom Triangles with Equal Base and Same Height have Equal Area the area of $\\triangle BDE$ is the same as the area of $\\triangle CDE$.\nFrom Ratios of Equal Magnitudes :\nFrom Areas of Triangles and Parallelograms Proportional to Base :\nBy the same reasoning:\nFrom Equality of Ratios is Transitive :\n$\\Box$\nNow let the sides $AB, AC$ of $\\triangle ABC$ be cut proportionally , so that $BD : DA = CE : EA$.\nJoin $DE$.\nWe need to show that $DE \\parallel BC$.\nWe use the same construction as above.\nFrom Areas of Triangles and Parallelograms Proportional to Base we have that:\nFrom Equality of Ratios is Transitive :\nSo from Magnitudes with Same Ratios are Equal , the area of $\\triangle BDE$ is the same as the area of $\\triangle CDE$.\nBut these triangles are on the same base $DE$.\nSo from Equal Sized Triangles on Same Base have Same Height , it follows that $DE$ and $BC$ are parallel.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Interior_Extremum_Theorem",
+    "title": "Interior Extremum Theorem",
+    "statement": "Let $f$ be a real function which is differentiable on the open interval $\\openint a b$.",
+    "proof_text": "By definition of derivative at a point :\nSuppose $\\map {f'} \\xi > 0$.\nThen from Behaviour of Function Near Limit‎ it follows that:\nprovided that $x \\in I$ and $x \\ne \\xi$.\nNow let $x_1$ be any number in the open interval $\\openint {\\xi - h} \\xi$.\nThen:\nand hence from:\nit follows that:\nThus $f$ can not have a local minimum at $\\xi$.\nNow let $x_2$ be any number in the open interval $\\openint \\xi {\\xi + h}$.\nThen:\nand hence from:\nit follows that:\nThus $f$ can not have a local maximum at $\\xi$ either.\nA similar argument can be applied to $-f$ to handle the case where $\\map {f'} \\xi < 0$.\nThe only other possibility is that $\\map {f'} \\xi = 0$, hence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Intermediate_Value_Theorem",
+    "title": "Intermediate Value Theorem",
+    "statement": "Let $I \\subseteq \\R$ be a real interval .",
+    "proof_text": "This theorem is a restatement of Image of Real Interval under Continuous Real Function is Real Interval .\nFrom Image of Real Interval under Continuous Real Function is Real Interval , the image of $\\openint a b$ under $f$ is also a real interval (but not necessarily open ).\nThus if $k$ lies between $\\map f a$ and $\\map f b$, it must be the case that:\nThe result follows.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Internal_Direct_Product_Theorem",
+    "title": "Internal Direct Product Theorem",
+    "statement": "The following definitions of the concept of Internal Group Direct Product are equivalent :",
+    "proof_text": "From Conditions for Internal Group Direct Product it is sufficient to show that if:\nand:\nthen:\nif and only if",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Intersecting_Chords_Theorem",
+    "title": "Intersecting Chords Theorem",
+    "statement": "Let $AC$ and $BD$ both be chords of the same circle .",
+    "proof_text": "Let $AC$ and $BD$ be intersecting chords of circle $ABCD$.\nLet the point of intersection be $E$.\nIf $E$ is the center of $ABCD$ the solution is trivial, as $AE = EC = BE = ED$ and so $AE \\cdot EC = BE \\cdot ED$.\nOtherwise, let $F$ be the center of $ABCD$.\nLet $FG$ be drawn perpendicular to $AC$, and $FH$ be drawn perpendicular to $BD$.\nFrom Conditions for Diameter to be Perpendicular Bisector , $G$ bisects $AC$ and $H$ bisects $BD$.\nSo $AG = GC$ and $BH = HD$.\nFrom Difference of Two Squares we have that $AE \\cdot EC + EG^2 = GC^2$.\nLet us add $GF^2$ to these.\nSo $AE \\cdot EC + EG^2 + GF^2 = GC^2 + GF^2$.\nBut from Pythagoras's Theorem we have that:\nSo:\nUsing the same construction, we have that:\nBut $BF = CF$ as both are the radius of the circle $ABCD$.\nThat gives us:\nIt follows that $AE \\cdot EC = DE \\cdot EB$\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Inverse_Completion_Theorem",
+    "title": "Inverse Completion Theorem",
+    "statement": "Every commutative semigroup containing cancellable elements admits an inverse completion .",
+    "proof_text": "Let $\\struct {S, \\circ}$ be a commutative semigroup which has cancellable elements .\nFrom Construction of Inverse Completion , we can construct an inverse completion $\\struct {T', \\oplus'}$ of $\\struct {S', \\oplus'}$, which is an isomorphic copy of $S$ under the mapping $\\psi: S \\to S'$.\nBy the Embedding Theorem , there exists a semigroup $\\struct {T, \\circ}$  which contains $\\struct {S, \\circ}$, and an isomorphism $\\Psi$ from $\\struct {T, \\circ}$ to $\\struct {T', \\oplus'}$ which extends $\\psi$.\nThus $T$ is an inverse completion of $S$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Isosceles_Triangle_Theorem",
+    "title": "Isosceles Triangle has Two Equal Angles",
+    "statement": "In isosceles triangles , the angles at the base are equal to each other.",
+    "proof_text": "Let $\\triangle ABC$ be an isosceles triangle whose side $AB$ equals side $AC$.\nWe extend the straight lines $AB$ and $AC$ to $D$ and $E$ respectively.\nLet $F$ be a point on $BD$.\nWe cut off from $AE$ a length $AG$ equal to $AF$.\nWe draw line segments $FC$ and $GB$.\nSince $AF = AG$ and $AB = AC$, the two sides $FA$ and $AC$ are equal to $GA$ and $AB$ respectively.\nThey contain a common angle , that is, $\\angle FAG$.\nSo by Triangle Side-Angle-Side Congruence , $\\triangle AFC = \\triangle AGB$.\nThus $FC = GB$, $\\angle ACF = \\angle ABG$ and $\\angle AFC = \\angle AGB$.\nSince $AF = AG$ and $AB = AC$, then $BF = CG$.\nBut $FC = GB$, so the two sides $BF, FC$ are equal to the two sides $CG, GB$ respectively.\nThen $\\angle BFC = \\angle CGB$ while $CB$ is common to both.\nTherefore by Triangle Side-Angle-Side Congruence :\nTherefore $\\angle FBC = \\angle GCB$ and $\\angle BCF = \\angle CBG$.\nSo since $\\angle ACF = \\angle ABG$, and in these $\\angle BCF = \\angle CBG$, then $\\angle ABC = \\angle ACB$.\nBut $\\angle ABC$ and $\\angle ACB$ are at the base of $\\triangle ABC$.\nAlso, we have already proved that $\\angle FBC = \\angle GCB$, and these are the angles under the base of $\\triangle ABC$.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Language_of_Predicate_Logic_has_Unique_Parsability",
+    "title": "Language of Predicate Logic has Unique Parsability",
+    "statement": "Each WFF of predicate logic which starts with a left bracket or a negation sign has exactly one main connective .",
+    "proof_text": "We have the following cases:\nWe deal with these in turn.\nCases 1 and 2 are taken care of by Language of Propositional Logic has Unique Parsability .\nCases 3 and 4 do not start with either a left bracket or a negation sign , so do not have to be investigated.\n$\\blacksquare$",
+    "proof_steps": [
+      "$\\mathbf A = \\neg \\mathbf B$, where $\\mathbf B$ is a WFF of length $k$.",
+      "$\\mathbf A = \\paren {\\mathbf B \\circ \\mathbf C}$ where $\\circ$ is one of the binary connectives.",
+      "$\\mathbf A = \\map p {t_1, t_2, \\ldots, t_n}$, where $t_1, t_2, \\ldots, t_n$ are terms , and $p \\in \\PP_n$.",
+      "$\\mathbf A = \\paren {Q x: \\mathbf B}$, where $\\mathbf B$ is a WFF of length $k - 5$, $Q$ is a quantifier ($\\forall$ or $\\exists$) and $x$ is a variable ."
+    ]
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Laplace_Expansion_Theorem_for_Determinants",
+    "title": "Laplace Expansion Theorem for Determinants",
+    "statement": "Let $\\mathbf A = \\sqbrk a_n$ be a square matrix of order $n$ .",
+    "proof_text": "Because of Determinant of Transpose , it is necessary to prove only one of these identities.\nLet:\nFirst, note that from Determinant with Row Multiplied by Constant , we have:\nand similarly:\nand so on for the whole of row $r$.\nFrom Determinant as Sum of Determinants :\nConsider the determinant :\nExchange rows $r$ and $r - 1$, then (the new) row $r - 1$ with row $r - 2$, until finally row $r$ is at the top.\nRow $1$ will be in row $2$, row $2$ in row $3$, and so on.\nThis is permuting the rows by a $k$-cycle of length $r$.\nCall that $k$-cycle $\\rho$.\nThen from Parity of K-Cycle :\nThus:\nThe same argument can be applied to columns .\nThus:\nand so:\nThen:\nis $A_{r k}$, the cofactor of $a_{r k}$ in $D$.\nBut from Determinant with Unit Element in Otherwise Zero Row , we have:\nAssembling all the pieces derived above, the result follows.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Cosines",
+    "title": "Law of Cosines",
+    "statement": "Let $\\triangle ABC$ be a triangle whose sides $a, b, c$ are such that $a$ is opposite $A$, $b$ is opposite $B$ and $c$ is opposite $C$.",
+    "proof_text": "Let $\\triangle ABC$ be embedded in a Cartesian coordinate system by identifying:\nThus by definition of sine and cosine :\nBy the Distance Formula :\nHence:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Inverses_(Modulo_Arithmetic)",
+    "title": "Law of Inverses (Modulo Arithmetic)",
+    "statement": "Let $m, n \\in \\Z$.",
+    "proof_text": "We have that $d = \\gcd \\set {m, n}$.\nSo:\nSo $b$ (in the above) fits the requirement for $n'$ in the assertion to be proved.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Mass_Action",
+    "title": "Law of Mass Action",
+    "statement": "Let $\\AA$ and $\\BB$ be two chemical substances in a solution $C$ which are involved in a second-order reaction .",
+    "proof_text": "By the definition of a second-order reaction :\nBy definition of joint proportion :\nor:\nfor some positive real constant $k$.\nThus:\nNote that in the above, we have to assume that $A \\ne B$ or the integrals on the right hand side will not be defined.\nWe will look later at how we handle the situation when $A = B$.\nWe are given the initial condition $x = 0$ at $t = 0$.\nThus:\nOur assumption that $C \\ne 1$ is justified, because that only happens when $A = B$, and we have established that this is not the case.\nSo, we now have:\nNow we can investigate what happens when $A = B$.\nWe need to solve:\nSo:\nWe are given the initial condition $x = 0$ at $t = 0$.\nThus:\nThis gives us:\nSo:\n\\dfrac {k A^2 a b t} {k A a b t + 1} & : A = B \\\\\n& \\\\\n\\dfrac {A B e^{-k \\paren {A - B} a b t} } {A - B e^{-k \\paren {A - B} a b t} } & : A \\ne B\n\\end{cases}$\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Quadratic_Reciprocity",
+    "title": "Law of Quadratic Reciprocity",
+    "statement": "Let $p$ and $q$ be distinct odd primes .",
+    "proof_text": "Let $p$ and $q$ be distinct odd primes .\nConsider the rectangle in the Cartesian $x y$ plane with vertices at $\\tuple {0, 0}, \\tuple {\\dfrac p 2, 0}, \\tuple {\\dfrac p 2, \\dfrac q 2}, \\tuple {0, \\dfrac q 2}$.\nThe number of lattice points inside this rectangle is $\\dfrac {p - 1} 2 \\times \\dfrac {q - 1} 2$.\nConsider the diagonal from $\\tuple {0, 0}$ to $\\tuple {\\dfrac p 2, \\dfrac q 2}$.\nThis has the equation :\nAiming for a contradiction , suppose there were a lattice point $\\tuple {a, b}$ on the diagonal .\nThen:\nBut as $p$ and $q$ are distinct primes , this would mean:\nand:\nThis means that $\\tuple {a, b}$ has to be outside the rectangle .\nSo there are no lattice points on the diagonal inside the rectangle .\nLet $A$ and $B$ be the triangular regions inside the rectangle lying respectively above and below the diagonal .\nLet $k \\in \\Z: 0 < k < \\dfrac p 2$.\nThe number of lattice points in $B$ which lie directly above the point $\\tuple {k, 0}$ is:\nwhere $\\floor {\\dfrac q p k}$ is the floor of $\\dfrac q p k$.\nSo the total number of lattice points in $B$ is given by:\nLet $\\map \\alpha {q, p}$ be defined as:\nIn the same way, by counting the lattice points to the right of $\\tuple {0, k}$, the total number of lattice points in $A$ is given by:\nNow the total number of lattice points in the rectangle is $N_A + N_B$.\nBut this is also equal to:\nSo we have that:\nThe fact that these counts are equal relies upon the fact that there are no lattice points on the diagonal , as demonstrated above.\nNow we invoke Eisenstein's Lemma :\nSo this gives us:\nwhich is LQR .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Sines",
+    "title": "Law of Sines",
+    "statement": "Let $\\triangle ABC$ be a triangle whose sides $a, b, c$ are such that $a$ is opposite $A$, $b$ is opposite $B$ and $c$ is opposite $C$.",
+    "proof_text": "Construct the altitude from $B$.\nFrom the definition of sine :\nThus:\nand:\nThis gives:\nSo:\nSimilarly, constructing the altitude from $A$ gives:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Law_of_Tangents",
+    "title": "Law of Tangents",
+    "statement": "Let $\\triangle ABC$ be a triangle whose sides $a, b, c$ are such that $a$ is opposite $A$, $b$ is opposite $B$ and $c$ is opposite $C$.",
+    "proof_text": "Let $d = \\dfrac a {\\sin A}$.\nFrom the Law of Sines , let:\nso that:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Least_Upper_Bound_Property",
+    "title": "Least Upper Bound Property",
+    "statement": "Let $S \\subset \\R$ be a non-empty subset of the set of real numbers such that $S$ is bounded above .",
+    "proof_text": "Suppose that $S \\subseteq \\R_{\\ge 0}$ has the positive real number $U$ as an upper bound .\nThen $\\R_{\\ge 0}$ can be represented as a straight line $L$ whose sole endpoint is the point $O$.\nLet $l_0 \\in \\R_{\\ge 0}$ be the standard unit of length .\nThere exists a unique point $X \\in L$ such that $U \\cdot l_0 = OX$.\nFurthermore, if $x \\in S$, then:\nwhere $\\cdot$ denotes (real) multiplication .",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Letter-Box_Principle",
+    "title": "Dirichlet's Box Principle",
+    "statement": "Let $S$ be a finite set whose cardinality is $n$.",
+    "proof_text": "Aiming for a contradiction , suppose no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements .\nThen the maximum number of elements of any $S_i$ would be $\\ceiling {\\dfrac n k} - 1$.\nSo the total number of elements of $S$ would be no more than $k \\paren {\\ceiling {\\dfrac n k} - 1} = k \\ceiling {\\dfrac n k} - k$.\nThere are two cases:\nSuppose $k \\divides n$.\nThen $\\ceiling {\\dfrac n k} = \\dfrac n k$ is an integer and:\nThus:\nThis contradicts the fact that $\\card S = n$.\nHence our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nNext, suppose that $k \\nmid n$.\nThen:\nand again this contradicts the fact that $\\card S = n$.\nIn the same way, our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nHence, by Proof by Contradiction , there has to be at least $\\ceiling {\\dfrac n k}$ elements in at least one $S_i \\subseteq S$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Letterbox_Principle",
+    "title": "Dirichlet's Box Principle",
+    "statement": "Let $S$ be a finite set whose cardinality is $n$.",
+    "proof_text": "Aiming for a contradiction , suppose no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements .\nThen the maximum number of elements of any $S_i$ would be $\\ceiling {\\dfrac n k} - 1$.\nSo the total number of elements of $S$ would be no more than $k \\paren {\\ceiling {\\dfrac n k} - 1} = k \\ceiling {\\dfrac n k} - k$.\nThere are two cases:\nSuppose $k \\divides n$.\nThen $\\ceiling {\\dfrac n k} = \\dfrac n k$ is an integer and:\nThus:\nThis contradicts the fact that $\\card S = n$.\nHence our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nNext, suppose that $k \\nmid n$.\nThen:\nand again this contradicts the fact that $\\card S = n$.\nIn the same way, our assumption that no subset $S_i$ of $S$ has as many as $\\ceiling {\\dfrac n k}$ elements was false.\nHence, by Proof by Contradiction , there has to be at least $\\ceiling {\\dfrac n k}$ elements in at least one $S_i \\subseteq S$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Liber_Abaci/Problems/Bezants_and_a_Seventh",
+    "title": "Liber Abaci/Problems/Bezants and a Seventh",
+    "statement": "There were $6$ sons and $36$ bezants.",
+    "proof_text": "Let the last son receive $n$ bezants.\nThen the last son but one received $n - 1$ bezants plus $\\dfrac 1 7$ of what remained.\nBut that also equals $n$ bezants.\nSo the last son received $\\paren {n - 1} + 1$ bezant.\nTherefore what remained after his having taken $n - 1$ bezants must have been $7 \\times 1 = 7$ bezants.\nHe took $1$ more bezant, leaving $6$.\nBecause the $n$th son took $n$ bezants, it must be the case that there were $6$ sons, all of whom took $6$ bezants.\nTo check this, we confirm what each son receives:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Liber_Abaci/Problems/Lion,_Leopard_and_Bear",
+    "title": "Liber Abaci/Problems/Lion, Leopard and Bear",
+    "statement": "The three together would consume the sheep in $1 \\frac {23} {37}$ hours.",
+    "proof_text": "Using the method of false position :\nFor $4$ hours, in which the lion eats a sheep, put $\\dfrac 1 4$.\nFor the $5$ hours the leopard takes, put $\\dfrac 1 5$.\nFor the $6$ hours the bear takes, put $\\dfrac 1 6$.\nBecause $\\dfrac 1 6$, $\\dfrac 1 5$ and $\\dfrac 1 4$ are found exactly in $60$, suppose that in $60$ hours they devour the sheep.\nThen consider how many sheep a lion can eat in $60$ hours;\nand the leopard would eat $12$ as a fifth of $60$ is $12$.\nSimilarly the bear would eat $10$, as $\\dfrac 1 6$ of $60$ is $10$.\nTherefore in $60$ hours, all $3$ together would eat $15 + 12 + 10 = 37$ sheep.\nSo if takes them $60$ hours to eat $37$ sheep, it takes then $\\dfrac {37} {60}$ hours to consume $1$ sheep.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Locker_Problem",
+    "title": "Locker Problem",
+    "statement": "There is a school with $100$ students, and correspondingly $100$ lockers, all of which start off closed.",
+    "proof_text": "Lockers switch state when a student whose number is a factor of the locker's number makes a pass.\nBecause they start closed, only those lockers whose state has been switched an odd number of times will finish open.\nBy definition, any factor of a number $n$ has another (not necessarily distinct) matching factor such that the product of the two is $n$.\nIn most cases, these pairs of factor have distinct elements .\nHowever, if the number in question is a square , then one of its pairs of factors is identical.\nIndeed, both elements of the pair are the number's square root .\nThus:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/One_Hundred_Fowls",
+    "title": "One Hundred Fowls",
+    "statement": "$100$ fowls were sold for $100$ shillings .",
+    "proof_text": "Let $x$, $y$ and $z$ denote the number of cockerels, hens and chicks respectively.\nWe are to solve for $x, y, z \\in \\N$:\n$7 x$ must be divisible by $4$.\nHence so must $x$.\nWrite $x = 4 n$.\nThen the problem is reduced to:\nHence $0 \\le n \\le 3$.\nWe list the solutions $\\tuple {n, x, y, z}$ for each $n$:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Part-Time_Carpenter",
+    "title": "Part-Time Carpenter",
+    "statement": "A carpenter agrees to work, on the condition that:",
+    "proof_text": "Let $x$ be the number of days he worked.\nThen:\nChecking our work:\nFor $18$ days and at $\\pounds 2$ per day, he earns $\\pounds 2 \\times 18 = \\pounds 36$.\nFor $12$ days, forfeiting $\\pounds 3$ per day, he forfeits $\\pounds 3 \\times 12 = \\pounds 36$.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Regiomontanus'_Angle_Maximization_Problem",
+    "title": "Regiomontanus' Angle Maximization Problem",
+    "statement": "Let $AB$ be a line segment .",
+    "proof_text": "There exists a unique circle $C$ tangent to $PQ$ passing through $A$ and $B$.\nFrom Angles in Same Segment of Circle are Equal , the angle subtended by $AB$ from any point on $C$ is the same as angle $\\angle AQB$.\nAll other points on $PQ$ that are not $Q$ itself are outside $C$.\nHence the angle subtended by $AB$ to such points is smaller.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Serpent_Climbing_Out_of_a_Well",
+    "title": "Serpent Climbing Out of a Well",
+    "statement": "A serpent lies at the bottom of a well $30$ length units deep.",
+    "proof_text": "We have that:\nThis is how far the serpent's efforts will take it after a day and a night.\nThe key point to note is that once the serpent has reached the top, it will not slip down again.\nSo the solution is more complicated than just calculating how long it will take to climb $30$ at $\\dfrac 7 {15}$ per day.\nWe calculate how long it will take to climb to $30 - \\dfrac 2 3$:\nNow we examine the situation in detail.\nAt the end of $62$ days and nights, the serpent has climbed $62 \\times \\dfrac 7 {15} = 28 \\frac {14} {15}$ from the top.\nIt has $1 \\frac 1 {15}$ left to go.\nAfter the end of the $63$rd day, it has climbed $28 \\frac {14} {15} + \\dfrac 2 3 = 29 \\frac 3 5$.\nAt the end of the $63$rd night it has slipped back down to $29 \\frac 3 5 - \\dfrac 1 5 = 29 \\frac 2 5$.\nThere remains $\\dfrac 3 5$ of the way to climb.\nThis will take $\\dfrac 3 5 \\div \\dfrac 2 3 = \\dfrac 3 5 \\times \\dfrac 3 2 = \\dfrac 9 {10}$ of the next day to reach the top.\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Seventeen_Horses",
+    "title": "Seventeen Horses",
+    "statement": "A man dies, leaving $17$ horses to be divided among his heirs.",
+    "proof_text": "We note that:\nThe fact that the ratios do not add up to $1$ tells us straight away that those ratios are not in fact the actual fractions of the inheritance that each will receive.\nIt is noted that the question carefully does not state that one son receives $\\dfrac 1 2$, the next son $\\dfrac 1 3$ and the third $\\dfrac 1 9$, because that is not what actually happens here.\nThe solution is usually couched in the form of a story, along the following lines:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Smallest_Multiple_of_9_with_all_Digits_Even",
+    "title": "Smallest Multiple of 9 with all Digits Even",
+    "statement": "$288$ is the smallest integer multiple of $9$ all of whose digits are even .",
+    "proof_text": "By the brute force technique:\nAll integer multiples of $9$ $k \\times 9$ for $k = 12$ through to $k = 22$ begin with $1$, and so have at least one odd digit .\nThen:\nHence the result.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Smallest_Set_of_Weights_for_One-Pan_Balance",
+    "title": "Smallest Set of Weights for One-Pan Balance",
+    "statement": "Consider a balance for determining the weight of a physical object .",
+    "proof_text": "This is equivalent to the statement that every positive integer can be expressed uniquely in binary notation .\nThis in turn is an application of the Basis Representation Theorem .\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Smallest_Set_of_Weights_for_Two-Pan_Balance",
+    "title": "Smallest Set of Weights for Two-Pan Balance",
+    "statement": "Consider a balance for determining the weight of a physical object .",
+    "proof_text": "Place the item to be weighed in the left hand pan of the balance .\nLet it weigh $n$.\nLet $n$ be expressed in balanced ternary representation .\nFrom Representation of Integers in Balanced Ternary , $n$ can be uniquely so represented.\nWith $m$ digits, we can count up to $\\dfrac {3^{m + 1} - 1} 2$.\nWe use the balanced ternary representation to model how to place the weights .\nLet the digits of $n$ in such a representation be numbered $0, 1, \\ldots, m$ from the least significant digit to the most significant digit .\nThe $k$th digit represents the weight which weighs $3^k$.\nWhen the $k$th digit is $1$, place weight $3^k$ in the right hand pan .\nWhen the $k$th digit is $\\underline 1$, place weight $3^k$ in the left hand pan .\nWhen the $k$th digit is $0$, place weight $3^k$ in neither pan .\nThis will make the balance level.\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Socrates_is_Mortal",
+    "title": "Socrates is Mortal",
+    "statement": "Let $x$ be an object variable from the universe of rational beings .",
+    "proof_text": "Let $x$ be an object variable from the universe of rational beings .\nLet $\\map H x$ denote the propositional function $x$ is human .\nLet $\\map M x$ denote the propositional function $x$ is mortal .\nLet $S$ be a proper name that denotes Socrates .\nThe argument can then be expressed as:\nThat is:\n$\\blacksquare$",
+    "proof_steps": []
+  },
+  {
+    "url": "https://proofwiki.org/wiki/Wheat_and_Chessboard_Problem",
+    "title": "Wheat and Chessboard Problem",
+    "statement": "The squares of a chessboard are numbered in some way, from $1$st to $64$th.",
+    "proof_text": "Let $W$ be the total volume of grain on the chessboard .\nLet $N$ be the number of grains on the chessboard\n$N$ is governed by a geometric sequence of $64$ terms whose initial term is $1$ and whose common ratio is $2$.\nFrom Sum of Geometric Sequence $N$ is given by:\nLet it be assumed that there are $2^{10} \\times 3^2$ grains of wheat to the (imperial) pint .\nThis approximation is suggested in Cassell's Book of In-Door Amusements, Card Games and Fireside Fun of $1881$.\nThere are $64$ (imperial) pints to the bushel .\nHence we have:\nUsing a conversion factor of $27.496$ bushels per cubic metre , this gives:\nThat is quite a lot of grain.\n$\\blacksquare$",
+    "proof_steps": []
+  }
+]

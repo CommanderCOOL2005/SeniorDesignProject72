@@ -1,0 +1,9 @@
+[
+  {
+    "url": "https://proofwiki.org/wiki/1089_Trick",
+    "title": "1089 Trick",
+    "statement": "Take a three-digit number (one where the first and last digits are different by at least $2$).",
+    "proof_text": "Let the number you started with be expressed in decimal notation as $[abc]_{10}$.\nThen it is $10^2 a + 10 b + c$.\nIts reversal is:\nThe difference between the two is $99a - 99c$ (or $99c - 99a$, it matters not).\nThis is a multiple of $99$.\nThe three-digit multiples of $99$ are:\nBy adding any one of these to its reversal , you get:\n$\\blacksquare$\nNote: You need to make sure the difference between the first and last digits of the number you started with is at least $2$ so as to make sure that the first difference you calculate is definitely a $3$-digit number.",
+    "proof_steps": []
+  }
+]

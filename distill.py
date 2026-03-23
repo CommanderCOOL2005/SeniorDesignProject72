@@ -13,6 +13,7 @@ from typing import Dict, List
 import torch
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
+from torch.nn.utils.rnn import pad_sequence
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
@@ -33,6 +34,7 @@ class ProofDataset(Dataset):
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.data = self._load_data(data_path)
+        self.encoded = self._pretokenize(self.data)
         
     def _load_data(self, path: str) -> List[Dict]:
         data = []
@@ -42,46 +44,72 @@ class ProofDataset(Dataset):
                 if line:
                     data.append(json.loads(line))
         return data
+
+    def _pretokenize(self, raw_data: List[Dict]) -> List[Dict]:
+        encoded_items: List[Dict] = []
+        for item in raw_data:
+            prompt = f"{item['instruction']}\n\n{item['input']}"
+            completion = item['output']
+            full_text = f"{prompt}\n\n{completion}"
+
+            full_encoding = self.tokenizer(
+                full_text,
+                max_length=self.max_length,
+                truncation=True,
+                padding=False,
+            )
+            prompt_encoding = self.tokenizer(
+                prompt,
+                max_length=self.max_length,
+                truncation=True,
+                padding=False,
+            )
+
+            input_ids = full_encoding['input_ids']
+            attention_mask = full_encoding['attention_mask']
+            prompt_length = min(len(prompt_encoding['input_ids']), len(input_ids))
+
+            labels = list(input_ids)
+            for index in range(prompt_length):
+                labels[index] = -100
+
+            encoded_items.append(
+                {
+                    'input_ids': input_ids,
+                    'attention_mask': attention_mask,
+                    'labels': labels,
+                }
+            )
+
+        return encoded_items
     
     def __len__(self):
-        return len(self.data)
+        return len(self.encoded)
     
     def __getitem__(self, idx):
-        item = self.data[idx]
-        
-        # Format: instruction + input -> output
-        prompt = f"{item['instruction']}\n\n{item['input']}"
-        completion = item['output']
-        full_text = f"{prompt}\n\n{completion}"
-        
-        # Tokenize
-        encoding = self.tokenizer(
-            full_text,
-            max_length=self.max_length,
-            truncation=True,
-            padding='max_length',
-            return_tensors='pt'
-        )
-        
-        input_ids = encoding['input_ids'].squeeze()
-        attention_mask = encoding['attention_mask'].squeeze()
-        
-        # Create labels (mask the prompt part)
-        prompt_encoding = self.tokenizer(
-            prompt,
-            max_length=self.max_length,
-            truncation=True
-        )
-        prompt_length = len(prompt_encoding['input_ids'])
-        
-        labels = input_ids.clone()
-        labels[:prompt_length] = -100  # Don't compute loss on prompt
-        
+        item = self.encoded[idx]
+
         return {
-            'input_ids': input_ids,
-            'attention_mask': attention_mask,
-            'labels': labels
+            'input_ids': torch.tensor(item['input_ids'], dtype=torch.long),
+            'attention_mask': torch.tensor(item['attention_mask'], dtype=torch.long),
+            'labels': torch.tensor(item['labels'], dtype=torch.long),
         }
+
+
+def collate_batch(batch, pad_token_id: int):
+    input_ids = [item['input_ids'] for item in batch]
+    attention_masks = [item['attention_mask'] for item in batch]
+    labels = [item['labels'] for item in batch]
+
+    padded_input_ids = pad_sequence(input_ids, batch_first=True, padding_value=pad_token_id)
+    padded_attention_masks = pad_sequence(attention_masks, batch_first=True, padding_value=0)
+    padded_labels = pad_sequence(labels, batch_first=True, padding_value=-100)
+
+    return {
+        'input_ids': padded_input_ids,
+        'attention_mask': padded_attention_masks,
+        'labels': padded_labels,
+    }
 
 
 def load_teacher_model(
@@ -327,6 +355,7 @@ def main():
     parser.add_argument("--teacher-gpu-memory", default="45GiB", help="Max GPU memory to allocate for teacher model")
     parser.add_argument("--teacher-cpu-memory", default="220GiB", help="Max CPU RAM for teacher offload")
     parser.add_argument("--teacher-offload-folder", default="./teacher_offload", help="Disk folder for teacher offload")
+    parser.add_argument("--num-workers", type=int, default=4, help="DataLoader worker count")
     
     args = parser.parse_args()
     
@@ -351,7 +380,14 @@ def main():
     # Load dataset
     logger.info(f"Loading dataset from {args.dataset}")
     dataset = ProofDataset(args.dataset, tokenizer, args.max_length)
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
+    dataloader = DataLoader(
+        dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
+        collate_fn=lambda batch: collate_batch(batch, tokenizer.pad_token_id),
+        num_workers=args.num_workers,
+        pin_memory=(args.device == "cuda"),
+    )
     
     logger.info(f"Dataset size: {len(dataset)} examples")
     

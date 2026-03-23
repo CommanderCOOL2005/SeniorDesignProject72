@@ -4,11 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verification Result</title>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)'], ['$', '$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
-      body{font-family:system-ui,Arial;max-width:900px;margin:24px auto;padding:0 12px}
-      pre{background:#f6f6f8;padding:12px;border-radius:6px}
-      .ok{color:green}
-      .err{color:crimson}
+      body{font-family:Georgia,"Times New Roman",serif;max-width:980px;margin:24px auto;padding:0 12px;background:#fcfbf7;color:#1f1c18}
+      pre{background:#f2efe8;padding:12px;border-radius:8px;overflow:auto}
+      .ok{color:#1f6b3b}
+      .err{color:#a12828}
+      .panel{background:#fffdf8;border:1px solid #dfd7c8;border-radius:10px;padding:16px;margin:14px 0}
+      .math-block{background:#f7f3ea;border-left:4px solid #b98b2f;padding:12px 14px;border-radius:8px;margin-top:8px;font-size:1.05rem}
+      .raw{color:#5b5449;font-size:0.95rem;margin-top:6px}
+      ul{padding-left:20px}
+      li{margin:0 0 12px}
     </style>
   </head>
   <body>
@@ -17,22 +33,33 @@
     {% if error %}
       <div class="err">Error: {{ error }}</div>
     {% else %}
-      <h3>Goal: {{ spec.goal.formal or spec.goal.nl }}</h3>
-      <h4>Status: {% if out.ok %}<span class="ok">Goal reached ✅</span>{% else %}<span class="err">Not reached ❌</span>{% endif %}</h4>
+      <div class="panel">
+        <h3>Goal</h3>
+        <div class="math-block">\({{ (spec.goal.formal or spec.goal.nl)|latex_formula }}\)</div>
+        <div class="raw">Raw output: {{ spec.goal.formal or spec.goal.nl }}</div>
+        <h4>Status: {% if out.ok %}<span class="ok">Goal reached ✅</span>{% else %}<span class="err">Not reached ❌</span>{% endif %}</h4>
+      </div>
 
-      <h3>Step results</h3>
-      <ul>
-        {% for r in out.results %}
-          <li>
-            <strong>{{ r.id }}</strong> — {% if r.ok %}<span class="ok">OK</span>{% else %}<span class="err">ERR</span>{% endif %}
-            {% if r.conclusion %} — Conclusion: <code>{{ r.conclusion }}</code>{% endif %}
-            {% if r.error %} — Error: <code>{{ r.error }}</code> — Suggestion: {{ r.suggestion }}{% endif %}
-          </li>
-        {% endfor %}
-      </ul>
+      <div class="panel">
+        <h3>Step results</h3>
+        <ul>
+          {% for r in out.results %}
+            <li>
+              <strong>{{ r.id }}</strong> — {% if r.ok %}<span class="ok">OK</span>{% else %}<span class="err">ERR</span>{% endif %}
+              {% if r.conclusion %}
+                <div class="math-block">\({{ r.conclusion|latex_formula }}\)</div>
+                <div class="raw">Raw conclusion: {{ r.conclusion }}</div>
+              {% endif %}
+              {% if r.error %}<div class="raw">Error: {{ r.error }}{% if r.suggestion %} — Suggestion: {{ r.suggestion }}{% endif %}</div>{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
 
-      <h3>Verifier log</h3>
-      <pre>{{ out.log | join('\n') }}</pre>
+      <div class="panel">
+        <h3>Verifier log</h3>
+        <pre>{{ out.log | join('\n') }}</pre>
+      </div>
 
       {% if lean_exists %}
         <p>Lean skeleton exported. <a href="/download_lean?name={{ lean_name }}">Download Lean file</a></p>

@@ -1,245 +1,351 @@
 #!/usr/bin/env python3
-"""
-Simple web interface for the AI Proof Verifier
-- Form to paste axioms (one per line), goal, and steps (one per line, natural language)
-- Optional simple markers for box open/close and dependencies
-- Runs `run_session` from `SeniorDesignProject72/ai_proof_verifier_full.py`
-- Returns verification feedback and a link to the generated Lean skeleton
-"""
-from flask import Flask, render_template, request, send_file, jsonify, redirect, url_for
+"""Simple web interface for the distilled 1.5B math-solution generator."""
+from flask import Flask, render_template, request, jsonify
 import pathlib
 import json
-import os
 import re
-import tempfile
+import threading
+import time
 
-# make sure the verifier package is on path
-import sys
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1] / "SeniorDesignProject72"))
-
-from ai_proof_verifier_full import run_session
+import torch
+from peft import PeftModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Helpers to transform user input into the verifier spec
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
+MODEL_OPTIONS = {
+    "distilled_05b": {
+        "label": "0.5B Distilled",
+        "kind": "lora",
+        "adapter_dir": REPO_ROOT / "distilled_model_05b" / "final",
+        "fallback_base": "Qwen/Qwen2.5-0.5B",
+    },
+    "distilled_15b": {
+        "label": "1.5B Distilled",
+        "kind": "lora",
+        "adapter_dir": REPO_ROOT / "distilled_model" / "final",
+        "fallback_base": "Qwen/Qwen2.5-1.5B",
+    },
+    "base_15b": {
+        "label": "1.5B Base",
+        "kind": "base",
+        "model_name": "Qwen/Qwen2.5-1.5B",
+        "tokenizer_name": "Qwen/Qwen2.5-1.5B",
+    },
+}
+DEFAULT_MODEL_CHOICE = "distilled_15b"
+DEFAULT_COMPARE_MODEL_CHOICE = "base_15b"
+MODEL_CACHE = {}
+MODEL_LOCK = threading.Lock()
+DEFAULT_MAX_NEW_TOKENS = 660
+EXAMPLE_PROBLEM = r"Derive $(\frac{1}{1-r})^2 = 1 + 2r + 3r^2 + 4r^3 + \ldots$."
 
-def parse_user_steps(text: str):
-    """Parse multiline user steps into list of step dicts.
-    Support optional dep annotation at end of line:  "(deps: S1,S2)"
-    Recognize lines starting with 'Assume' -> box_open True.
-    If a line contains 'Thus' or 'Therefore' and we have an open box -> set box_close True for that step.
-    """
-    steps = []
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    for i, ln in enumerate(lines, start=1):
-        sid = f"S{i}"
-        # find deps annotation
-        deps = []
-        m = re.search(r"\(deps:\s*([A-Za-z0-9_,\s]+)\)\s*$", ln, flags=re.I)
-        if m:
-            deps = [d.strip() for d in m.group(1).split(',') if d.strip()]
-            ln = re.sub(r"\(deps:[^)]+\)\s*$", "", ln, flags=re.I).strip()
-        box_open = bool(re.match(r"^Assume\b", ln, flags=re.I))
-        box_close = bool(re.search(r"\b(Thus|Therefore|Hence|Henceforth)\b", ln, flags=re.I)) and not box_open
-        step = {
-            "id": sid,
-            "nl": ln,
-            "rule": "",  # let the NL mapper attempt to pick a rule
-            "deps": deps,
-            "formal": None,
-            "box_open": box_open,
-            "box_close": box_close,
-            "parser_meta": {}
+
+def logic_text_to_latex(text: str) -> str:
+    """Convert verifier-style logic text into a MathJax-friendly LaTeX string."""
+    if text is None:
+        return ""
+
+    latex = str(text).strip()
+    if not latex:
+        return ""
+
+    latex = latex.translate(str.maketrans({
+        "_": r"\_",
+        "{": r"\{",
+        "}": r"\}",
+        "#": r"\#",
+        "%": r"\%",
+        "&": r"\&",
+        "$": r"\$",
+    }))
+
+    replacements = (
+        ("<->", r"\\leftrightarrow "),
+        ("->", r"\\to "),
+        ("→", r"\\to "),
+        ("¬", r"\\lnot "),
+        ("~", r"\\lnot "),
+        ("∧", r"\\land "),
+        ("∨", r"\\lor "),
+        ("⊥", r"\\bot "),
+        ("∀", r"\\forall "),
+        ("∃", r"\\exists "),
+    )
+    for source, target in replacements:
+        latex = latex.replace(source, target)
+
+    latex = re.sub(r"\s+", " ", latex).strip()
+    return latex
+
+
+def detect_model_device() -> str:
+    if torch.cuda.is_available():
+        return "cuda"
+    if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
+
+
+def get_model_dtype(device: str):
+    if device == "cpu":
+        return torch.float32
+    if device == "cuda":
+        return torch.bfloat16
+    return torch.float16
+
+
+def normalize_latex_output(text: str) -> str:
+    content = (text or "").strip()
+    if not content:
+        return ""
+
+    content = re.sub(r"^```(?:latex)?\s*", "", content, flags=re.I)
+    content = re.sub(r"\s*```$", "", content)
+    return content.strip()
+
+
+def prepare_mathjax_output(text: str) -> str:
+    normalized = normalize_latex_output(text)
+    if not normalized:
+        return "No output generated."
+
+    has_math_delimiters = any(token in normalized for token in (r"\(", r"\)", r"\[", r"\]", "$$", "$"))
+    has_math_environment = bool(re.search(r"\\begin\{(?:aligned|align\*?|equation\*?|gather\*?)\}", normalized))
+
+    if has_math_delimiters or has_math_environment:
+        return normalized
+
+    math_like_lines = []
+    for raw_line in normalized.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if any(token in line for token in ("=", "^", "_", "\\", "->", "→", "≤", "≥")):
+            math_like_lines.append(line)
+
+    if math_like_lines and len(math_like_lines) == len([line for line in normalized.splitlines() if line.strip()]):
+        body = " \\\\n".join(math_like_lines)
+        return "\\[\n\\begin{aligned}\n" + body + "\n\\end{aligned}\n\\]"
+
+    return normalized
+
+
+def resolve_model_choice(model_choice: str) -> str:
+    if model_choice in MODEL_OPTIONS:
+        return model_choice
+    return DEFAULT_MODEL_CHOICE
+
+
+def load_model_bundle(model_choice: str):
+    selected = resolve_model_choice(model_choice)
+    if selected in MODEL_CACHE:
+        return MODEL_CACHE[selected]
+
+    with MODEL_LOCK:
+        if selected in MODEL_CACHE:
+            return MODEL_CACHE[selected]
+
+        spec = MODEL_OPTIONS[selected]
+        device = detect_model_device()
+        dtype = get_model_dtype(device)
+
+        model_kwargs = {
+            "dtype": dtype,
+            "trust_remote_code": True,
         }
-        steps.append(step)
-    return steps
+        if device == "cuda":
+            model_kwargs["device_map"] = "auto"
+
+        if spec["kind"] == "lora":
+            adapter_dir = spec["adapter_dir"]
+            if not adapter_dir.exists():
+                raise FileNotFoundError(f"Model directory not found: {adapter_dir}")
+
+            adapter_config_path = adapter_dir / "adapter_config.json"
+            base_model_name = spec["fallback_base"]
+            if adapter_config_path.exists():
+                with adapter_config_path.open("r", encoding="utf-8") as handle:
+                    adapter_config = json.load(handle)
+                base_model_name = adapter_config.get("base_model_name_or_path", base_model_name)
+
+            tokenizer = AutoTokenizer.from_pretrained(str(adapter_dir), trust_remote_code=True)
+            base_model = AutoModelForCausalLM.from_pretrained(base_model_name, **model_kwargs)
+            model = PeftModel.from_pretrained(base_model, str(adapter_dir))
+        else:
+            tokenizer = AutoTokenizer.from_pretrained(spec["tokenizer_name"], trust_remote_code=True)
+            model = AutoModelForCausalLM.from_pretrained(spec["model_name"], **model_kwargs)
+
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
+
+        model.eval()
+        if device != "cuda":
+            model = model.to(device)
+
+        bundle = {
+            "tokenizer": tokenizer,
+            "model": model,
+            "device": device,
+            "model_choice": selected,
+            "model_label": spec["label"],
+        }
+        MODEL_CACHE[selected] = bundle
+        return bundle
 
 
-def extract_from_proof(text: str):
-    """Given a single natural-language proof text, extract axioms, goal, and steps.
-    Heuristics:
-      - Lines starting with 'Given:' or 'Axiom:' are axioms.
-      - Line starting with 'Goal:' sets the explicit goal.
-      - The final line containing 'Thus'/'Therefore' is used as goal if no explicit 'Goal:' provided.
-      - Remaining lines are treated as steps (one per line).
-    """
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    axioms = []
-    goal_line = None
-    step_lines = []
-    for ln in lines:
-        m = re.match(r"^(Given|Axiom)[:\s]+(.+)$", ln, flags=re.I)
-        if m:
-            axioms.append(m.group(2).strip())
-            continue
-        m2 = re.match(r"^Goal[:\s]+(.+)$", ln, flags=re.I)
-        if m2:
-            goal_line = m2.group(1).strip()
-            continue
-        step_lines.append(ln)
+def generate_math_solution(problem: str, model_choice: str = DEFAULT_MODEL_CHOICE, max_new_tokens: int = DEFAULT_MAX_NEW_TOKENS):
+    started_at = time.perf_counter()
+    bundle = load_model_bundle(model_choice)
+    tokenizer = bundle["tokenizer"]
+    model = bundle["model"]
+    device = bundle["device"]
 
-    # If no explicit goal, try to find last 'Thus/Therefore' step
-    if not goal_line:
-        for ln in reversed(step_lines):
-            m = re.search(r"\b(Thus|Therefore|Hence)\b[:\s]*(.+)$", ln, flags=re.I)
-            if m:
-                goal_line = m.group(2).strip()
-                break
+    prompt = f"""You are a rigorous mathematics assistant.
 
-    # Build axiom dicts
-    axioms_list = [{"id": f"A{i+1}", "nl": a, "formal": a} for i, a in enumerate(axioms)]
-    # Build steps using existing parser helper
-    steps = parse_user_steps('\n'.join(step_lines))
-    return axioms_list, goal_line or "", steps
+Solve the following math problem.
+Return a readable LaTeX-formatted solution.
+Use normal prose for explanation.
+Wrap only mathematical expressions in LaTeX delimiters such as \\( ... \\) or \\[ ... \\].
+Do not wrap the entire response in one math block unless the entire response is mathematics.
+Do not include markdown fences.
+
+Problem:
+{problem}
+"""
+
+    model_device = getattr(model, "device", None)
+    if model_device is None:
+        model_device = next(model.parameters()).device
+
+    inputs = tokenizer(prompt, return_tensors="pt", padding=True).to(model_device)
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            repetition_penalty=1.05,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+
+    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    response = generated_text[len(prompt):].strip() or generated_text.strip()
+    elapsed_seconds = round(time.perf_counter() - started_at, 2)
+    return {
+        "problem": problem,
+        "raw_output": response,
+        "rendered_output": prepare_mathjax_output(response),
+        "device": device,
+        "model_choice": bundle["model_choice"],
+        "model_label": bundle["model_label"],
+        "generation_seconds": elapsed_seconds,
+    }
 
 @app.route("/", methods=["GET"])
 def index():
     example = {
-        "proof": "Given: P -> Q\nGiven: P\nFrom P and P -> Q infer Q\nThus Q\nGoal: Q"
+        "problem": EXAMPLE_PROBLEM
     }
-    return render_template("index.html", example=example)
+    return render_template(
+        "index.html",
+        example=example,
+        generated=None,
+        compare_results=None,
+        generation_error=None,
+        problem_text="",
+        selected_model=DEFAULT_MODEL_CHOICE,
+        selected_compare_model=DEFAULT_COMPARE_MODEL_CHOICE,
+        compare_mode=False,
+        model_options=MODEL_OPTIONS,
+    )
 
-@app.route("/verify", methods=["POST"])
-def verify():
-    # HTML form posts as form-encoded; accept either a 'proof' textarea or explicit fields
-    proof_text = request.form.get("proof")
-    if proof_text:
-        axioms, goal_text, steps = extract_from_proof(proof_text)
-    else:
-        axioms_text = request.form.get("axioms", "").strip()
-        goal_text = request.form.get("goal", "").strip()
-        steps_text = request.form.get("steps", "").strip()
-        axioms = []
-        if axioms_text:
-            for i, ln in enumerate([l for l in axioms_text.splitlines() if l.strip()], start=1):
-                axioms.append({"id": f"A{i}", "nl": ln, "formal": ln})
-        steps = parse_user_steps(steps_text)
 
-    # ensure goal fields are strings (verifier expects strings, not None)
-    goal_text = goal_text or ""
-    spec = {"axioms": axioms, "goal": {"nl": goal_text, "formal": goal_text}, "steps": steps}
+@app.route("/generate", methods=["POST"])
+def generate():
+    problem_text = request.form.get("problem", "").strip()
+    selected_model = resolve_model_choice(request.form.get("model_choice", DEFAULT_MODEL_CHOICE))
+    selected_compare_model = resolve_model_choice(request.form.get("compare_model_choice", DEFAULT_COMPARE_MODEL_CHOICE))
+    compare_mode = request.form.get("compare_mode") == "on"
+    example = {
+        "problem": EXAMPLE_PROBLEM
+    }
 
-    # try to auto-fill simple dependencies by matching known formulas in step NL text
-    known = {a['id']: a.get('formal') or a.get('nl') for a in axioms}
-    # include previous steps as potential deps (use their NL/formal)
-    for s in steps:
-        known[s['id']] = s.get('formal') or s.get('nl')
-    # heuristic: for steps with empty deps, find known formula texts that appear in the NL
-    for s in steps:
-        if not s.get('deps'):
-            found = []
-            # sort by length to prefer longer matches first
-            for fid, txt in sorted(known.items(), key=lambda kv: -len(kv[1] or "")):
-                if not txt:
-                    continue
-                try:
-                    if txt in s['nl'] and fid not in found and fid != s['id']:
-                        found.append(fid)
-                except Exception:
-                    continue
-            if found:
-                # cap deps to first 3 matches to avoid noise
-                s['deps'] = found[:3]
+    if not problem_text:
+        return render_template(
+            "index.html",
+            example=example,
+            generated=None,
+            compare_results=None,
+            generation_error="Enter a math problem.",
+            problem_text="",
+            selected_model=selected_model,
+            selected_compare_model=selected_compare_model,
+            compare_mode=compare_mode,
+            model_options=MODEL_OPTIONS,
+        )
 
-    # run verifier
     try:
-        out = run_session(spec)
-    except Exception as e:
-        return render_template("result.html", error=str(e), spec=spec, out=None)
-
-    # prepare lean file path returned by run_session
-    lean_path = out.get("lean")
-
-    # Try to locate the lean file in a few candidate locations (current cwd, repo root)
-    repo_root = pathlib.Path(__file__).resolve().parents[1]
-    app_dir = pathlib.Path(__file__).resolve().parent
-    candidates = []
-    if lean_path:
-        if os.path.isabs(lean_path):
-            candidates.append(pathlib.Path(lean_path))
+        if compare_mode:
+            first = generate_math_solution(problem_text, model_choice=selected_model)
+            second = generate_math_solution(problem_text, model_choice=selected_compare_model)
+            generated = None
+            compare_results = [first, second]
         else:
-            candidates.append(pathlib.Path(lean_path))
-            candidates.append(repo_root / lean_path)
-            candidates.append(app_dir / lean_path)
+            generated = generate_math_solution(problem_text, model_choice=selected_model)
+            compare_results = None
 
-    found = None
-    for p in candidates:
-        try:
-            if p and p.exists():
-                found = p.resolve()
-                break
-        except Exception:
-            continue
+        return render_template(
+            "index.html",
+            example=example,
+            generated=generated,
+            compare_results=compare_results,
+            generation_error=None,
+            problem_text=problem_text,
+            selected_model=selected_model,
+            selected_compare_model=selected_compare_model,
+            compare_mode=compare_mode,
+            model_options=MODEL_OPTIONS,
+        )
+    except Exception as exc:
+        return render_template(
+            "index.html",
+            example=example,
+            generated=None,
+            compare_results=None,
+            generation_error=str(exc),
+            problem_text=problem_text,
+            selected_model=selected_model,
+            selected_compare_model=selected_compare_model,
+            compare_mode=compare_mode,
+            model_options=MODEL_OPTIONS,
+        )
 
-    lean_exists = bool(found)
-    lean_name = None
-    if lean_exists:
-        # copy to a safe exports folder under the web_app directory so the app can serve it reliably
-        exports_dir = app_dir / "exports"
-        exports_dir.mkdir(parents=True, exist_ok=True)
-        dest_name = f"{found.stem}_{int(found.stat().st_mtime)}{found.suffix}"
-        dest_path = exports_dir / dest_name
-        try:
-            import shutil
-            shutil.copy(str(found), str(dest_path))
-            lean_name = dest_name
-        except Exception:
-            # fallback: serve the original absolute path if copy fails
-            dest_path = found
-            lean_name = found.name
-
-    return render_template("result.html", spec=spec, out=out, lean_exists=lean_exists, lean_name=lean_name)
-
-@app.route("/download_lean")
-def download_lean():
-    name = request.args.get("name")
-    if not name:
-        return "Missing file name", 400
-    exports_dir = pathlib.Path(__file__).resolve().parent / "exports"
-    path = exports_dir / name
-    if not path.exists():
-        return "Lean file not found", 404
-    return send_file(str(path), as_attachment=True)
-
-@app.route("/api/verify", methods=["POST"])
-def api_verify():
+@app.route("/api/generate", methods=["POST"])
+def api_generate():
     data = request.get_json(force=True)
-    # accept either a single 'proof' string or structured fields
-    if data.get("proof"):
-        proof = data.get("proof")
-        axioms, goal_text, steps = extract_from_proof(proof)
-    else:
-        axioms_list = data.get("axioms", [])
-        goal_text = data.get("goal")
-        steps_list = data.get("steps", [])
-        axioms = [{"id": f"A{i+1}", "nl": a, "formal": a} for i, a in enumerate(axioms_list) if a.strip()]
-        steps = []
-        for i, s in enumerate(steps_list, start=1):
-            steps.append({"id": f"S{i}", "nl": s, "rule": "", "deps": [], "formal": None, "box_open": s.strip().lower().startswith("assume"), "box_close": bool(re.search(r"\b(Thus|Therefore|Hence)", s, flags=re.I)), "parser_meta": {}})
+    problem_text = (data.get("problem") or "").strip()
+    selected_model = resolve_model_choice(data.get("model_choice", DEFAULT_MODEL_CHOICE))
+    selected_compare_model = resolve_model_choice(data.get("compare_model_choice", DEFAULT_COMPARE_MODEL_CHOICE))
+    compare_mode = bool(data.get("compare"))
+    if not problem_text:
+        return jsonify({"error": "Missing problem"}), 400
 
-    # try simple deps autofill (same heuristic as HTML form)
-    known = {a['id']: a.get('formal') or a.get('nl') for a in axioms}
-    for s in steps:
-        known[s['id']] = s.get('formal') or s.get('nl')
-    for s in steps:
-        if not s.get('deps'):
-            found = []
-            for fid, txt in sorted(known.items(), key=lambda kv: -len(kv[1] or "")):
-                if not txt:
-                    continue
-                try:
-                    if txt in s['nl'] and fid not in found and fid != s['id']:
-                        found.append(fid)
-                except Exception:
-                    continue
-            if found:
-                s['deps'] = found[:3]
+    try:
+        if compare_mode:
+            first = generate_math_solution(problem_text, model_choice=selected_model)
+            second = generate_math_solution(problem_text, model_choice=selected_compare_model)
+            return jsonify({
+                "mode": "compare",
+                "results": [first, second],
+            })
 
-    # ensure goal fields are strings (verifier expects strings, not None)
-    goal_text = goal_text or ""
-    spec = {"axioms": axioms, "goal": {"nl": goal_text, "formal": goal_text}, "steps": steps}
-    out = run_session(spec)
-    return jsonify(out)
+        generated = generate_math_solution(problem_text, model_choice=selected_model)
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+    generated["mode"] = "single"
+    return jsonify(generated)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

@@ -1,6 +1,7 @@
 import argparse
 import json
 import time
+from pathlib import Path
 from typing import Iterable
 
 import requests
@@ -10,6 +11,7 @@ from urllib.parse import urljoin
 
 BASE = "https://proofwiki.org"
 DEFAULT_CATEGORY_URL = BASE + "/wiki/Category:Proofs"
+API_ENDPOINT = BASE + "/w/api.php"
 
 
 def fetch_soup(session: requests.Session, url: str) -> BeautifulSoup:
@@ -18,29 +20,94 @@ def fetch_soup(session: requests.Session, url: str) -> BeautifulSoup:
     return BeautifulSoup(response.text, "html.parser")
 
 
-def get_category_links(session: requests.Session, category_url: str) -> list[str]:
-    links: set[str] = set()
-    next_url = category_url
-    seen_pages: set[str] = set()
+def category_url_to_title(category_url: str) -> str:
+    marker = "/wiki/"
+    if marker not in category_url:
+        return "Category:Proofs"
 
-    while next_url and next_url not in seen_pages:
-        seen_pages.add(next_url)
-        soup = fetch_soup(session, next_url)
+    tail = category_url.split(marker, 1)[1]
+    if not tail:
+        return "Category:Proofs"
 
-        for anchor in soup.select("#mw-pages a[href]"):
-            href = anchor.get("href", "")
-            if href.startswith("/wiki/") and ":" not in href:
-                links.add(urljoin(BASE, href))
+    title = tail.replace("_", " ")
+    return title
 
-        next_link = None
-        for anchor in soup.select("#mw-pages a[href]"):
-            if anchor.get_text(strip=True).lower() == "next page":
-                next_link = urljoin(BASE, anchor["href"])
-                break
 
-        next_url = next_link
+def fetch_category_members(session: requests.Session, category_title: str) -> list[dict]:
+    members: list[dict] = []
+    cont: dict = {}
 
-    return sorted(links)
+    while True:
+        params = {
+            "action": "query",
+            "list": "categorymembers",
+            "cmtitle": category_title,
+            "cmtype": "page|subcat",
+            "cmlimit": "max",
+            "format": "json",
+        }
+        params.update(cont)
+
+        response = session.get(API_ENDPOINT, params=params, timeout=30)
+        response.raise_for_status()
+        payload = response.json()
+
+        members.extend(payload.get("query", {}).get("categorymembers", []))
+
+        if "continue" not in payload:
+            break
+
+        cont = payload["continue"]
+
+    return members
+
+
+def get_category_links(session: requests.Session, category_url: str, max_links: int | None = None) -> list[str]:
+    root_category = category_url_to_title(category_url)
+    if not root_category.startswith("Category:"):
+        root_category = f"Category:{root_category}"
+
+    page_links: set[str] = set()
+    pending_categories: list[str] = [root_category]
+    seen_categories: set[str] = set()
+
+    scanned_categories = 0
+    while pending_categories:
+        current_category = pending_categories.pop(0)
+        if current_category in seen_categories:
+            continue
+
+        seen_categories.add(current_category)
+        scanned_categories += 1
+        if scanned_categories % 25 == 0:
+            print(
+                f"[category-scan] scanned={scanned_categories} pending={len(pending_categories)} pages={len(page_links)}",
+                flush=True,
+            )
+        try:
+            members = fetch_category_members(session, current_category)
+        except requests.RequestException:
+            continue
+
+        for member in members:
+            namespace = member.get("ns")
+            title = member.get("title", "")
+            if not title:
+                continue
+
+            if namespace == 14 and title.startswith("Category:"):
+                if title not in seen_categories:
+                    pending_categories.append(title)
+            elif namespace == 0:
+                page_links.add(urljoin(BASE, "/wiki/" + title.replace(" ", "_")))
+                if max_links is not None and len(page_links) >= max_links:
+                    return sorted(page_links)
+
+    return sorted(page_links)
+
+
+def write_json(path: Path, data: list[dict]) -> None:
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def extract_statement(content: BeautifulSoup) -> str:
@@ -103,6 +170,9 @@ def scrape_proof(session: requests.Session, url: str) -> dict | None:
     statement = extract_statement(content)
     proof_text, proof_steps = extract_proof(content)
 
+    if not proof_text and not proof_steps:
+        return None
+
     return {
         "url": url,
         "title": title,
@@ -112,7 +182,13 @@ def scrape_proof(session: requests.Session, url: str) -> dict | None:
     }
 
 
-def scrape_all(links: Iterable[str], delay: float, limit: int | None) -> list[dict]:
+def scrape_all(
+    links: Iterable[str],
+    delay: float,
+    limit: int | None,
+    output_path: Path,
+    checkpoint_every: int,
+) -> list[dict]:
     data: list[dict] = []
     session = requests.Session()
     session.headers.update(
@@ -121,6 +197,8 @@ def scrape_all(links: Iterable[str], delay: float, limit: int | None) -> list[di
         }
     )
 
+    checkpoint_path = output_path.with_suffix(output_path.suffix + ".partial")
+
     for index, link in enumerate(tqdm(links)):
         if limit is not None and index >= limit:
             break
@@ -128,9 +206,18 @@ def scrape_all(links: Iterable[str], delay: float, limit: int | None) -> list[di
             item = scrape_proof(session, link)
             if item:
                 data.append(item)
+                if checkpoint_every > 0 and len(data) % checkpoint_every == 0:
+                    write_json(checkpoint_path, data)
+                    print(
+                        f"[scrape-progress] kept={len(data)} last_url={link}",
+                        flush=True,
+                    )
             time.sleep(delay)
         except requests.RequestException:
             time.sleep(delay)
+
+    if checkpoint_path.exists():
+        checkpoint_path.unlink(missing_ok=True)
 
     return data
 
@@ -141,6 +228,7 @@ def main() -> None:
     parser.add_argument("--delay", type=float, default=0.5)
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--category-url", default=DEFAULT_CATEGORY_URL)
+    parser.add_argument("--checkpoint-every", type=int, default=200)
     args = parser.parse_args()
 
     session = requests.Session()
@@ -150,11 +238,20 @@ def main() -> None:
         }
     )
 
-    links = get_category_links(session, args.category_url)
-    data = scrape_all(links, delay=args.delay, limit=args.limit)
+    output_path = Path(args.output)
+    links = get_category_links(session, args.category_url, max_links=args.limit)
+    print(f"[category-scan] total_links={len(links)}", flush=True)
 
-    with open(args.output, "w", encoding="utf-8") as handle:
-        json.dump(data, handle, ensure_ascii=False, indent=2)
+    data = scrape_all(
+        links,
+        delay=args.delay,
+        limit=args.limit,
+        output_path=output_path,
+        checkpoint_every=args.checkpoint_every,
+    )
+
+    write_json(output_path, data)
+    print(f"[scrape-complete] kept={len(data)} output={output_path}", flush=True)
 
 
 if __name__ == "__main__":

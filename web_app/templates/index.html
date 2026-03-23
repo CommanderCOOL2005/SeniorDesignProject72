@@ -3,32 +3,170 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Proof Verifier</title>
+    <title>Math Proof Generator</title>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)'], ['$', '$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
-      body{font-family:system-ui,Arial;max-width:900px;margin:24px auto;padding:0 12px}
-      textarea{width:100%;height:160px}
-      input[type=text]{width:100%}
-      .panel{border:1px solid #ddd;padding:12px;border-radius:6px;margin-bottom:12px}
-      button{padding:8px 12px;border-radius:6px}
-      pre{background:#f6f6f8;padding:12px;border-radius:6px}
+      body{font-family:Georgia,"Times New Roman",serif;max-width:940px;margin:24px auto;padding:0 16px;background:#fbfaf7;color:#1d1a16}
+      h1,h2{font-weight:600}
+      textarea{width:100%;min-height:150px;box-sizing:border-box;font:inherit;padding:14px;border:1px solid #d8cfbf;border-radius:10px;background:#fffdf9}
+      input[type=text],select{width:100%;box-sizing:border-box;font:inherit;padding:10px 12px;border:1px solid #d8cfbf;border-radius:10px;background:#fffdf9;color:#1d1a16}
+      .panel{border:1px solid #ddd2c0;padding:16px 18px;border-radius:12px;margin-bottom:18px;background:#fffdf8;box-shadow:0 10px 30px rgba(76, 57, 24, 0.05)}
+      .hero{background:linear-gradient(135deg,#fff8ea,#f7f1e4);border-color:#d7c7a8}
+      button{padding:10px 16px;border-radius:999px;border:0;background:#8b5e1a;color:#fffaf1;font:inherit;cursor:pointer}
+      button:hover{background:#714a12}
+      pre{background:#f2efe8;padding:12px;border-radius:8px;overflow:auto}
+      .subtle{font-size:0.95rem;color:#5a5146}
+      .error{color:#a12828;font-weight:600}
+      .success{color:#225f39}
+      .math-box{background:#f6f1e7;border:1px solid #ddcfb5;border-radius:10px;padding:18px;min-height:72px;overflow:auto;white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere;max-width:560px;margin:0 auto}
+      .math-box mjx-container{max-width:100% !important}
+      .math-box mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden}
+      .math-box mjx-container[jax="SVG"]{font-size:0.95em !important}
+      .math-box mjx-container[jax="SVG"] svg{max-width:100% !important;height:auto !important}
+      .raw-box{background:#f9f7f1;border-radius:10px;padding:12px;margin-top:12px;border:1px solid #e7dece;max-width:560px;margin-left:auto;margin-right:auto}
+      .compare-toggle{display:flex;align-items:center;gap:8px;margin:8px 0 12px}
+      .compare-toggle input[type=checkbox]{width:auto}
+      .compare-section{margin-bottom:10px}
+      .compare-results{display:grid;gap:14px}
+      .compare-card{background:#fcfaf4;border:1px solid #e7dcc7;border-radius:10px;padding:12px}
+      .grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:18px;align-items:start}
+      .output-panel{max-width:620px;justify-self:center;width:100%}
+      .loading-overlay{position:fixed;inset:0;background:rgba(28,23,16,0.72);display:none;align-items:center;justify-content:center;z-index:9999}
+      .loading-card{background:#fffdf8;border:1px solid #dfd3bf;border-radius:14px;padding:24px 28px;min-width:280px;max-width:420px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.22)}
+      .loading-title{font-size:1.15rem;font-weight:600;margin-bottom:8px}
+      .loading-sub{color:#5a5146;font-size:0.95rem}
+      .spinner{width:34px;height:34px;border:4px solid #e9dcc4;border-top-color:#8b5e1a;border-radius:50%;margin:0 auto 12px;animation:spin 0.9s linear infinite}
+      @keyframes spin {to {transform: rotate(360deg);}}
+      @media (max-width: 980px){.grid{grid-template-columns:1fr}}
     </style>
   </head>
   <body>
-    <h1>AI Proof Verifier — Web UI</h1>
-    <p>Paste axioms (one per line), the goal, and a sequence of natural language proof steps (one per line). Optional dependency annotation: <code>(deps: S1,S2)</code> appended to a step.</p>
+    <div id="loadingOverlay" class="loading-overlay" aria-live="polite" aria-busy="true">
+      <div class="loading-card">
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-title">Generating proof…</div>
+        <div id="loadingSub" class="loading-sub">The first request can take longer while the selected model loads.</div>
+      </div>
+    </div>
 
-    <form action="/verify" method="post">
-      <div class="panel">
-        <label><strong>Proof (natural language)</strong></label>
-        <textarea name="proof" placeholder="You may include axioms as lines starting with 'Given:' or 'Axiom:' and an explicit goal with 'Goal:'.\nExample:\nGiven: P -> Q\nGiven: P\nAssume P\nFrom P and P -> Q infer Q\nThus Q\nGoal: Q" rows="12">Given: P -> Q
-Given: P
-From P and P -> Q infer Q
-Thus Q
-Goal: Q</textarea>
-        <p style="font-size:0.9em;color:#666;">Only a single free-text proof input is required. The verifier will auto-detect axioms (lines starting with <code>Given:</code> or <code>Axiom:</code>) and the goal (line starting with <code>Goal:</code> or the final "Thus/Therefore" line). The exported Lean skeleton will automatically include <code>import Mathlib</code>.</p>
+    <h1>Math Proof Generator</h1>
+    <p class="subtle">Enter a math problem and the model will generate a proof.</p>
+
+    <div class="grid">
+      <div class="panel hero">
+        <h2>Model Settings</h2>
+        <p class="subtle">Choose one model, or enable compare mode to run the same prompt on two models.</p>
+        <form id="generateForm" action="/generate" method="post">
+          <label><strong>Model</strong></label>
+          <select id="modelChoice" name="model_choice">
+            {% for model_key, model_info in model_options.items() %}
+              <option value="{{ model_key }}" {% if model_key == selected_model %}selected{% endif %}>{{ model_info.label }}</option>
+            {% endfor %}
+          </select>
+
+          <div class="compare-toggle">
+            <input id="compareMode" type="checkbox" name="compare_mode" {% if compare_mode %}checked{% endif %}>
+            <label for="compareMode"><strong>Compare two models</strong></label>
+          </div>
+
+          <div id="compareSection" class="compare-section" {% if not compare_mode %}style="display:none"{% endif %}>
+            <label><strong>Second model</strong></label>
+            <select id="compareModelChoice" name="compare_model_choice">
+              {% for model_key, model_info in model_options.items() %}
+                <option value="{{ model_key }}" {% if model_key == selected_compare_model %}selected{% endif %}>{{ model_info.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <p class="subtle">0.5B and 1.5B distilled use local adapters; 1.5B base uses the base model directly.</p>
+
+          <label><strong>Math problem</strong></label>
+          <textarea name="problem" placeholder="Example: Derive $(\frac{1}{1-r})^2 = 1 + 2r + 3r^2 + 4r^3 + \ldots$." rows="8">{{ problem_text or example.problem }}</textarea>
+          <p class="subtle">The first request can take longer because the model loads lazily.</p>
+          <button id="generateBtn" type="submit">Generate LaTeX Solution</button>
+        </form>
       </div>
 
-      <button type="submit">Verify proof</button>
-    </form>
+      <div class="panel output-panel">
+        <h2>Rendered Output</h2>
+        {% if generation_error %}
+          <p class="error">{{ generation_error }}</p>
+        {% elif compare_results %}
+          <div class="compare-results">
+            {% for result in compare_results %}
+              <div class="compare-card">
+                <div class="math-box">{{ result.rendered_output }}</div>
+                <div class="raw-box">
+                  <div><strong>Model:</strong> {{ result.model_label }}</div>
+                  <div><strong>Device:</strong> {{ result.device }}</div>
+                  <div><strong>Generation time:</strong> {{ result.generation_seconds }}s</div>
+                  <div><strong>Raw model output</strong></div>
+                  <pre>{{ result.raw_output }}</pre>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% elif generated %}
+          <div class="math-box">{{ generated.rendered_output }}</div>
+          <div class="raw-box">
+            <div><strong>Model:</strong> {{ generated.model_label }}</div>
+            <div><strong>Device:</strong> {{ generated.device }}</div>
+            <div><strong>Generation time:</strong> {{ generated.generation_seconds }}s</div>
+            <div><strong>Raw model output</strong></div>
+            <pre>{{ generated.raw_output }}</pre>
+          </div>
+        {% else %}
+          <div class="math-box">Your generated solution will appear here.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const generateForm = document.getElementById('generateForm');
+        const overlay = document.getElementById('loadingOverlay');
+        const generateBtn = document.getElementById('generateBtn');
+        const loadingSub = document.getElementById('loadingSub');
+        const modelChoice = document.getElementById('modelChoice');
+        const compareMode = document.getElementById('compareMode');
+        const compareSection = document.getElementById('compareSection');
+        const compareModelChoice = document.getElementById('compareModelChoice');
+
+        if (!generateForm || !overlay) return;
+
+        if (compareMode && compareSection) {
+          compareMode.addEventListener('change', function () {
+            compareSection.style.display = compareMode.checked ? 'block' : 'none';
+          });
+        }
+
+        generateForm.addEventListener('submit', function () {
+          if (loadingSub && modelChoice) {
+            const selectedText = modelChoice.options[modelChoice.selectedIndex]?.text || 'selected model';
+            if (compareMode && compareMode.checked && compareModelChoice) {
+              const secondText = compareModelChoice.options[compareModelChoice.selectedIndex]?.text || 'second model';
+              loadingSub.textContent = `The first request can take longer while ${selectedText} and ${secondText} load.`;
+            } else {
+              loadingSub.textContent = `The first request can take longer while ${selectedText} loads.`;
+            }
+          }
+          overlay.style.display = 'flex';
+          if (generateBtn) {
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'Generating...';
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
