@@ -88,7 +88,17 @@
             </select>
           </div>
 
-          <p class="subtle">0.5B and 1.5B distilled use local adapters; 1.5B base uses the base model directly.</p>
+          <p class="subtle">0.5B and 1.5B distilled use local adapters; 0.5B, 1.5B, and 72B base options use base models directly.</p>
+
+          <label><strong>Token limit (max new tokens)</strong></label>
+          <select name="max_new_tokens">
+            {% for option in [32, 64, 128, 256, 512, 1024, 2048] %}
+              {% if option >= min_max_new_tokens and option <= max_max_new_tokens %}
+                <option value="{{ option }}" {% if option == (selected_max_new_tokens | int) %}selected{% endif %}>{{ option }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          <p class="subtle">Allowed range: {{ min_max_new_tokens }} to {{ max_max_new_tokens }}.</p>
 
           <label><strong>Math problem</strong></label>
           <textarea name="problem" placeholder="Example: Derive $(\frac{1}{1-r})^2 = 1 + 2r + 3r^2 + 4r^3 + \ldots$." rows="8">{{ problem_text or example.problem }}</textarea>
@@ -109,6 +119,7 @@
                 <div class="raw-box">
                   <div><strong>Model:</strong> {{ result.model_label }}</div>
                   <div><strong>Device:</strong> {{ result.device }}</div>
+                  <div><strong>Token limit:</strong> {{ result.max_new_tokens }}</div>
                   <div><strong>Generation time:</strong> {{ result.generation_seconds }}s</div>
                   <div><strong>Raw model output</strong></div>
                   <pre>{{ result.raw_output }}</pre>
@@ -121,6 +132,7 @@
           <div class="raw-box">
             <div><strong>Model:</strong> {{ generated.model_label }}</div>
             <div><strong>Device:</strong> {{ generated.device }}</div>
+            <div><strong>Token limit:</strong> {{ generated.max_new_tokens }}</div>
             <div><strong>Generation time:</strong> {{ generated.generation_seconds }}s</div>
             <div><strong>Raw model output</strong></div>
             <pre>{{ generated.raw_output }}</pre>

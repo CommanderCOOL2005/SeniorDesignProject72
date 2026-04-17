@@ -1,0 +1,31 @@
+[Unit]
+Description=Distillation Flask Web App
+After=network.target
+
+[Service]
+Type=simple
+User=omm22003
+Group=domain users
+WorkingDirectory=/home/omm22003/distillation/web_app
+Environment=FLASK_HOST=127.0.0.1
+Environment=PORT=5001
+Environment=FLASK_DEBUG=0
+Environment=USE_HTTPS=0
+Environment=DEFAULT_MAX_NEW_TOKENS=660
+Environment=VLLM_BASE_URL=http://127.0.0.1:8000/v1
+Environment=VLLM_MODEL_NAME=qwen-1.5b-vllm
+Environment=VLLM_ACCELERATED_MODELS=base_15b
+Environment=VLLM_DISTILLED_BASE_URL=http://127.0.0.1:8001/v1
+Environment=VLLM_DISTILLED_MODEL_NAME=distilled-15b-vllm
+Environment=VLLM_BASE05_BASE_URL=http://127.0.0.1:8002/v1
+Environment=VLLM_BASE05_MODEL_NAME=qwen-0.5b-vllm
+Environment=VLLM_DISTILLED05_BASE_URL=http://127.0.0.1:8003/v1
+Environment=VLLM_DISTILLED05_MODEL_NAME=distilled-05b-vllm
+Environment=VLLM_72B_BASE_URL=http://127.0.0.1:8004/v1
+Environment=VLLM_72B_MODEL_NAME=qwen-72b-vllm
+ExecStart=/home/omm22003/distillation/.venv_webapp/bin/python /home/omm22003/distillation/web_app/app.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -236,4 +236,35 @@ $$\mathcal{L} = \alpha \cdot T^2 \cdot \text{KL}\!\left(\sigma\!\left(\frac{z_s}
 
 where $T$ is the distillation temperature, $z_s$ are student logits, $z_t$ are teacher logits, and $y$ are ground-truth labels.
 
+---
+
+## Web App HTTPS Deployment (UConn Network)
+
+The Flask app in [web_app/app.py](web_app/app.py) now supports HTTPS directly and can automatically redirect HTTP traffic to HTTPS.
+
+Certificate defaults (already configured in code):
+- Cert: `/root/cert/lean4_cse_uconn_edu.pem`
+- Key: `/root/cert/lean4.cse.uconn.edu.key`
+
+Run from the repository root:
+
+```bash
+source .venv/bin/activate
+export USE_HTTPS=1
+export HTTPS_PORT=443
+export HTTP_PORT=80
+export REDIRECT_HTTP_TO_HTTPS=1
+python web_app/app.py
+```
+
+Behavior:
+- HTTPS served on `0.0.0.0:443` with your certificate/key.
+- HTTP listener on `0.0.0.0:80` returns permanent redirects to HTTPS.
+
+Optional environment overrides:
+- `SSL_CERT_FILE` and `SSL_KEY_FILE` to use different certificate paths.
+- `FLASK_HOST` to change bind host.
+- `FLASK_DEBUG=1` for debug mode (not recommended in production).
+- `USE_HTTPS=0` to run plain HTTP (`PORT` or `FLASK_PORT`, default `5001`).
+
 

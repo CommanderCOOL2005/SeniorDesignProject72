@@ -39,6 +39,9 @@ python --version
 echo ""
 echo "Step 1: Installing dependencies..."
 pip install -q -U -r requirements.txt beautifulsoup4 requests 2>/dev/null || true
+# Fix bitsandbytes for CUDA 13.1 compatibility
+echo "         - Fixing bitsandbytes for CUDA 13.1..."
+pip install -q --no-cache-dir bitsandbytes 2>/dev/null || true
 echo "         ✓ Dependencies installed"
 
 # Step 2: Generate dataset if needed
@@ -83,6 +86,11 @@ echo "         Teacher: Qwen/Qwen2.5-72B-Instruct"
 echo "         Student: Qwen/Qwen2.5-0.5B"
 echo "         Examples: $EXAMPLE_COUNT"
 echo ""
+
+# Set environment variables for optimal training
+export PYTORCH_ALLOC_CONF=expandable_segments:True
+export BNB_CUDA_VERSION=131
+export CUDA_LAUNCH_BLOCKING=0
 
 python distill.py \
   --dataset dataset.jsonl \

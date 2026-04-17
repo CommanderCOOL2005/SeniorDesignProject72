@@ -1,0 +1,17 @@
+[Unit]
+Description=vLLM OpenAI Server (Qwen 0.5B)
+After=network.target
+
+[Service]
+Type=simple
+User=omm22003
+Group=domain users
+WorkingDirectory=/home/omm22003/distillation
+Environment=HF_HOME=/home/omm22003/.cache/huggingface
+Environment=TRANSFORMERS_CACHE=/home/omm22003/.cache/huggingface
+ExecStart=/home/omm22003/distillation/.venv_webapp/bin/python -m vllm.entrypoints.openai.api_server --host 127.0.0.1 --port 8002 --model Qwen/Qwen2.5-0.5B --dtype bfloat16 --gpu-memory-utilization 0.10 --served-model-name qwen-0.5b-vllm
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
